@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { TextField, Button, Stack, Box } from '@mui/material';
@@ -14,17 +14,17 @@ const SearchBar = () => {
   const dispatch = useDispatch();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect( () => {
+  useEffect(() => {
     const timer = setTimeout(() => {
-      if( searchInputRef.current === null ) return;
+      if (searchInputRef.current === null) return;
       dispatch(setSearchTermReducer(debouncedSearchTerm))
       // prevent lose of focus after rerender
       searchInputRef.current.focus();
     }, 500)
-    
+
     return () => clearTimeout(timer);
-  }, [debouncedSearchTerm])
- 
+  }, [debouncedSearchTerm, dispatch])
+
   const handleCancel = () => {
     dispatch(setSearchTermReducer(""))
     setDebouncedSearchTerm('');
@@ -33,17 +33,17 @@ const SearchBar = () => {
   return (
     <Box>
       <Stack direction="row" spacing={1} sx={{ width: "100%" }}>
-        <TextField 
+        <TextField
           label="Search in the list"
           variant="outlined"
           size="small"
-          onChange={ (e) => setDebouncedSearchTerm(e.target.value)}
+          onChange={(e) => setDebouncedSearchTerm(e.target.value)}
           value={debouncedSearchTerm}
           inputRef={searchInputRef}
           focused
           sx={{ width: "100%" }}
           inputProps={{ autoComplete: "off" }} // maybe just hotfix to disable autocomplete
-          />
+        />
         <Button onClick={handleCancel} >Cancel</Button>
       </Stack>
     </Box>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { useTheme } from '@mui/material/styles';
-import { Box, Grid, CircularProgress, Typography, Alert  } from '@mui/material';
+import { Box, Grid, CircularProgress, Typography, Alert } from '@mui/material';
 
 import NothingToShow from './components/NoResults';
 import Todo from './components/todos/Todo';
@@ -24,37 +24,37 @@ const Dashboard = () => {
   const { data: todos, error, isError, isLoading, isSuccess } = useGetTodos();
 
   // set loaded todos to global state
-  useEffect( () => {
-    if( isSuccess ){
+  useEffect(() => {
+    if (isSuccess) {
       dispatch(setAllTodosReducer(todos))
     }
-  }, [todos])
- 
+  }, [todos, dispatch, isSuccess])
+
   const Screen = () => {
-    
-    if(isLoading) {
-      return <Box sx={{textAlign: "center"}}><CircularProgress /></Box>
+
+    if (isLoading) {
+      return <Box sx={{ textAlign: "center" }}><CircularProgress /></Box>
     }
-    
-    if(isError && error instanceof Error){
+
+    if (isError && error instanceof Error) {
       return <Alert severity="error"><Typography>{error.message}</Typography></Alert>
     }
-    
-    if(isSuccess){
+
+    if (isSuccess) {
       // simple filter of todos by search keyword
       const filteredTodos = searchTerm ? getFilteredTodos(allTodos, searchTerm) : allTodos;
-      
+
       // list of Todos is empty
-      if( Object.keys(filteredTodos).length === 0 ){
+      if (Object.keys(filteredTodos).length === 0) {
         return <NothingToShow />
       }
 
       return (
         <Grid container spacing={3}>
-          { Object.values(filteredTodos).reverse().map((todo) => <Todo key={todo.id} data={todo} /> )}
+          {Object.values(filteredTodos).reverse().map((todo) => <Todo key={todo.id} data={todo} />)}
         </Grid>
       )
-    }else{
+    } else {
       return null;
     }
 

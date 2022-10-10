@@ -29,14 +29,18 @@ export const filterTodos: (todos: TodoType[], searchTerm: string) => { filteredT
       todosCounter++;
       found = true;
     } else {
-      // check also items titles
+      // check also todo items
+      let foundInItem = false;
       for (let i = 0; i < todo.items.length; i++) {
         const item = todo.items[i];
         if (item.title.toLowerCase().includes(searchTerm.toLowerCase()) || item.description.toLowerCase().includes(searchTerm.toLowerCase())) {
           itemsCounter++;
           found = true;
+          foundInItem = true;
         }
       }
+      
+      if (foundInItem) todosCounter++;
     }
     return found;
   })

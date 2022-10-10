@@ -19,11 +19,14 @@ const DashboardSearchTitle: React.FC<{ todos: number, items: number }> = (props)
 
   /** Search term defined by user */
   const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
-
+  let subtitle = `Keyword found in ${todos} ` + (todos == 1 ? "todo" : "todos");
+  if (items > 0) {
+    subtitle += ` including ${items} ` + (items == 1 ? "item" : "items");
+  }
   return (
     <Box sx={{ m: theme.spacing(4, 0) }}>
       <Typography color="primary" variant="h2" >Search results for: {searchTerm}</Typography>
-      {(todos !== 0 || items !== 0) && <Typography color="primary">Keyword found in {todos} {todos == 1 ? "todo" : "todos"} and {items} {items == 1 ? "item" : "items"}</Typography>}
+      {(todos !== 0 || items !== 0) && <Typography color="primary">{subtitle}</Typography>}
     </Box>
   );
 

@@ -82,12 +82,12 @@ export const demoNotify = (promise: Promise<void>) => {
     {
       pending: {
         render() {
-          return <Typography variant="body1" fontWeight={600} display="block">Loading demo data...</Typography>
+          return <Typography variant="body1" fontWeight={600} display="block">Importing demo data...</Typography>
         }
       },
       success: {
         render() {
-          return <Typography variant="body1" fontWeight={600} display="block">Successfully loaded</Typography>
+          return <Typography variant="body1" fontWeight={600} display="block">Successfully imported</Typography>
         }
       },
       error: {

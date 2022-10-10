@@ -4,12 +4,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useTheme } from '@mui/material/styles';
 import { Box, Grid, CircularProgress, Typography, Alert } from '@mui/material';
 
+import DashboardSearchTitle from './components/DashboardSearchTitle';
 import NothingToShow from './components/NoResults';
 import Todo from './components/todos/Todo';
 import DashboardToolbar from './components/DashboardToolbar';
 import DemoData from './components/DemoData';
 import { useGetTodos } from './assets/apiFetcher';
-import { getFilteredTodos } from './assets/helpers';
+import { filterTodos as filterTodos } from './assets/helpers';
 import { setAllTodosReducer } from './store/todosSlice';
 
 import type { RootState } from './store/store';
@@ -56,18 +57,35 @@ const Dashboard: React.FC = () => {
     }
 
     if (isSuccess && dataDispatched) {
-      // simple filter of todos by search keyword
-      const filteredTodos = searchTerm ? getFilteredTodos(allTodos, searchTerm) : allTodos;
+
+      // maybe filter todos by search term
+      let todosList = allTodos;
+      let foundTodos = 0;
+      let foundItems = 0;
+      if (searchTerm) {
+        const filterResults = filterTodos(allTodos, searchTerm);
+        todosList = filterResults.filteredTodos;
+        foundTodos = filterResults.todos;
+        foundItems = filterResults.items;
+      }
 
       // list of Todos is empty
-      if (Object.keys(filteredTodos).length === 0) {
-        return <NothingToShow />
+      if (Object.keys(todosList).length === 0) {
+        return (
+          <>
+            {searchTerm && <DashboardSearchTitle todos={foundTodos} items={foundItems} />}
+            <NothingToShow />
+          </>
+        )
       }
 
       return (
-        <Grid container spacing={3}>
-          {Object.values(filteredTodos).reverse().map((todo) => <Todo key={todo.id} data={todo} />)}
-        </Grid>
+        <>
+          {searchTerm && <DashboardSearchTitle todos={foundTodos} items={foundItems} />}
+          <Grid container spacing={3}>
+            {Object.values(todosList).reverse().map((todo) => <Todo key={todo.id} data={todo} />)}
+          </Grid>
+        </>
       )
     } else {
       return null;

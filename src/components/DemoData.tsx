@@ -34,19 +34,14 @@ const DemoData: React.FC = () => {
   return (
     <>
       <Button variant="contained" onClick={() => setOpened(true)} sx={{ position: "fixed", bottom: "0", right: "0", m: theme.spacing(2) }} >Import Demo Data</Button>
-      <Dialog
-        open={opened}
-        onClose={() => setOpened(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle color="primary" id="alert-dialog-title">
+      <Dialog open={opened} onClose={() => setOpened(false)}>
+        <DialogTitle color="primary">
           Import demo data
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <Typography>All existing todo lists will be removed before demo import.</Typography>
-            <Typography fontWeight={600}>Are you sure to continue?</Typography>
+          <DialogContentText>
+            All existing todo lists will be removed before demo import.<br />
+            <Typography component="span" fontWeight={600}>Are you sure to continue?</Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

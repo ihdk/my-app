@@ -14,6 +14,7 @@ import { setAddingNewItemReducer } from '../../store/todosSlice';
 
 import type { ItemType } from '../../assets/types';
 
+/** Component props type */
 type Props = {
   data: ItemType;
   saveItem: (itemData: ItemType) => void;
@@ -21,12 +22,16 @@ type Props = {
   newItem?: boolean;
 }
 
+/** Item add/edit form data type */
 type FormData = {
   title: string;
   description: string;
   date: string;
 }
 
+/**
+ * Renders form to add new or edit existing todo item
+ */
 const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -35,17 +40,22 @@ const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false
   const maxDateThreshold = new Date("3000-01-01T00:00:00.000Z");
   const dateFormat = "DD.MM.YYYY HH:mm";
 
+  /**
+   * Handle form submit and prepare data for save
+   */
   const handleSubmit = (values: FormData) => {
-    // convert date to our format
     const itemData = {
       ...data,
       title: values.title,
       description: values.description,
-      date: dayjs(values.date).toISOString()
+      date: dayjs(values.date).toISOString() // convert date to our format
     }
     saveItem(itemData);
   }
 
+  /**
+   * Handle close of edit form
+   */
   const handleCancel = () => {
     if (newItem) {
       // disable add new item form
@@ -56,6 +66,9 @@ const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false
     }
   }
 
+  /**
+   * Custom text field component with formik notifications
+   */
   const EditItemTextField: React.FC<FieldProps & TextFieldProps> = props => {
     const isTouched = getIn(props.form.touched, props.field.name)
     const errorMessage = getIn(props.form.errors, props.field.name)
@@ -72,7 +85,10 @@ const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false
     )
   }
 
-  const EditItemDatepicker = () => {
+  /**
+   * Custom datepicker component with formik notifications
+   */
+  const EditItemDatepicker: React.FC = () => {
     const { values, errors, touched, setFieldValue } = useFormikContext<FormData>();
 
     return (

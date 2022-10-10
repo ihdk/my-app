@@ -3,6 +3,7 @@ import React, { useEffect, useState  } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { CircularProgress, Typography, Box } from '@mui/material';
 
+/** Types for component props */
 type Props = {
   title: string;
   min: number;
@@ -10,14 +11,22 @@ type Props = {
   color: string;
 }
 
+/**
+ * Renders circle progress bar in todo
+ */
 const Progress: React.FC<Props> = ( { title = "", min, max, color } ) => {
-  const [ finalValue, setFinalValue ] = useState(0);
-  const percentageValue = max === 0 ? 0 : Math.round( ( min / max ) * 100 );
   const theme = useTheme();
+  
+  // value displayed in progress bar
+  const [ value, setValue ] = useState(0);
+  
+  /** final value displayed in progress bar */
+  const finalValue = max === 0 ? 0 : Math.round( ( min / max ) * 100 );
 
+  // rerender component and set final value to show progress bar fill animation
   useEffect(() => {
-    setFinalValue(percentageValue);
-  }, [percentageValue]);
+    setValue(finalValue);
+  }, [finalValue]);
   
   return (
     <>
@@ -37,7 +46,7 @@ const Progress: React.FC<Props> = ( { title = "", min, max, color } ) => {
         <CircularProgress 
           variant="determinate"
           disableShrink={false}
-          value ={finalValue}
+          value ={value}
           sx={{ color: color, position: "absolute" }}
           size={80}
           thickness={6} 

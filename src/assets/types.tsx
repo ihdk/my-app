@@ -1,11 +1,11 @@
 export type TodoType = { 
-    id?: number; // id is not required in data for newly added record
+    id?: number; // id not required in data for newly added record, will be defined by api
     title: string;
     items: ItemType[]; 
 };
 
 export type ItemType = { 
-    id?: number; // id is not required in data for newly added record
+    id?: number; // id not required in data for newly added record, will be defined by api
     title: string;
     description: string;
     date: string;

@@ -13,6 +13,7 @@ import TodoPage from './TodoPage';
 import Header from './components/Header';
 import { store } from './store/store';
 
+// allow custom colors in MUI palette
 declare module '@mui/material/styles' {
   interface TypeText {
     white: string;
@@ -20,6 +21,7 @@ declare module '@mui/material/styles' {
   } 
 }
 
+/** MUI theme */
 let theme = createTheme({
   typography: {
     "fontFamily": "'Montserrat',sans-serif",
@@ -60,6 +62,7 @@ let theme = createTheme({
 });
 theme = responsiveFontSizes(theme);
 
+/** Create and customize query client, do not refetch data from api on window focus on   */
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -68,6 +71,9 @@ const queryClient = new QueryClient({
   },
 });
 
+/**
+  * Main app component
+  */
 const App = () => {
   const router = createBrowserRouter([
     {

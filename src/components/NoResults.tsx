@@ -1,9 +1,10 @@
-import React from 'react';
-
 import { useTheme } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
+/**
+ * Renders "nothing found" information 
+ */
 const NothingToShow = () => {
   const theme = useTheme();
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { useTheme } from '@mui/material/styles';
@@ -15,21 +15,36 @@ import { setAllTodosReducer } from './store/todosSlice';
 import type { RootState } from './store/store';
 import type { TodoType } from './assets/types';
 
+/**
+ * Renders dashboard page with all todos
+ */
 const Dashboard = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  
+  /** All todos stored in global state */
   const allTodos = useSelector<RootState, TodoType[]>((state) => state.todos.allTodos);
-  const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
 
+  /** Search term typed by user */
+  const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
+  
+  // Check if data loaded from api are saved in global state - prevent rendering of <Screen> component with no results message before data dispatched to `allTodos`
+  const [dataDispatched, setDataDispatched] = useState(false);
+  
   const { data: todos, error, isError, isLoading, isSuccess } = useGetTodos();
 
   // set loaded todos to global state
   useEffect(() => {
     if (isSuccess) {
       dispatch(setAllTodosReducer(todos))
+      // define that data were stored in global state
+      setDataDispatched(true);
     }
   }, [todos, dispatch, isSuccess])
 
+  /**
+    * Main section with listed todo lists
+    */
   const Screen = () => {
 
     if (isLoading) {
@@ -40,7 +55,7 @@ const Dashboard = () => {
       return <Alert severity="error"><Typography>{error.message}</Typography></Alert>
     }
 
-    if (isSuccess) {
+    if (isSuccess && dataDispatched) {
       // simple filter of todos by search keyword
       const filteredTodos = searchTerm ? getFilteredTodos(allTodos, searchTerm) : allTodos;
 

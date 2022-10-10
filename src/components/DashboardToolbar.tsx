@@ -1,3 +1,4 @@
+import React from 'react';
 import { useSelector } from 'react-redux'
 
 import { useTheme } from '@mui/material/styles';
@@ -8,8 +9,13 @@ import AddNewTodo from './todos/AddNewTodo';
 
 import type { RootState } from '../store/store';
 
-const DashboardToolbar = () => {
+/**
+ * Renders toolbar with add new todo button and search bar
+ */
+const DashboardToolbar: React.FC = () => {
   const theme = useTheme();
+  
+  /** Search term defined by user */
   const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
 
   return (

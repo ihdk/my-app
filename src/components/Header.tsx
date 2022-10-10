@@ -5,8 +5,13 @@ import { Link, Stack, AppBar, Container, Toolbar, Typography, Grid, Button } fro
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import HomeIcon from '@mui/icons-material/Home';
 
+/**
+ * Renders header of app
+ */
 const Header = () => {
   const theme = useTheme();
+  
+  /** Check if is opened dashboard page */
   const isDashboard = useMatch('/') !== null;
 
   return (

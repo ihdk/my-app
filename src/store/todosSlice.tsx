@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { TodoType, ItemType } from '../assets/types';
 
+/** Initial global states and defined reducers */
 export const todosSlice = createSlice({
   name: 'todos',
   initialState: {

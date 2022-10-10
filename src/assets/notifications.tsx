@@ -1,6 +1,14 @@
 import { toast } from 'react-toastify';
 import { Typography } from '@mui/material';
 
+/**
+ * Displays appropriate notification message according to processed action
+ * 
+ * @param type type of notification
+ * @param itemName name of processed record
+ * @param promise promise of processed action
+ * @returns 
+ */
 export const notify = (type: string, itemName: string, promise: Promise<void>) => {
   const text = { pending: "", success: "", error: "" }
 
@@ -62,26 +70,24 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
   )
 }
 
+/**
+ * Displays notification message while demo data are processed
+ * 
+ * @param promise promise of processed action
+ * @returns 
+ */
 export const demoNotify = ( promise: Promise<void> ) => {
   toast.promise(
     promise,
     {
       pending: {
         render(){
-          return (
-          <>
-            <Typography variant="body1" fontWeight={600} display="block">Loading demo data...</Typography>
-          </>
-          )
+          return <Typography variant="body1" fontWeight={600} display="block">Loading demo data...</Typography>
         }
       },
       success: {
         render(){
-          return (
-          <>
-            <Typography variant="body1" fontWeight={600} display="block">Successfully loaded</Typography>
-          </>
-          )
+          return <Typography variant="body1" fontWeight={600} display="block">Successfully loaded</Typography>
         }
       },
       error: {

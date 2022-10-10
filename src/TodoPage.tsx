@@ -25,7 +25,7 @@ const useFilterParamFromUrl = () => {
 }
 
 /**
- * Page content of opened todo
+ * Renders page of opened todo
  */
 const TodoPage = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const TodoPage = () => {
   // Currently selected states filter of todo items states `filter`
   const [filter, setFilter] = useState(paramState && filterStates.includes(paramState) ? paramState : 'all');
 
-  // Check if data loaded from api and saved in global state - prevent rendering of <Screen> component with no results message before allItems dispatch
+  // Check if data loaded from api are saved in global state - prevent rendering of <Screen> component with no results message before data dispatched to `allItems`
   const [dataDispatched, setDataDispatched] = useState(false);
 
   /** ID of currently opened todo page */
@@ -62,7 +62,7 @@ const TodoPage = () => {
     if (isSuccess) {
       dispatch(setAllItemsReducer(todo.items))
       dispatch(setFiltersCountReducer(todo.items))
-      // define that data were stored in global states
+      // define that data were stored in global state
       setDataDispatched(true);
     }
   }, [todo, dispatch, isSuccess])
@@ -70,8 +70,8 @@ const TodoPage = () => {
   /**
    * Handle change of todo items state `filter`
    * 
-   * @param e Mouse event
-   * @param value Value of selected todo items state `filter`
+   * @param e mouse event
+   * @param value value of selected todo items state `filter`
    */
   const handleFilterChange = (e: React.MouseEvent, value: string | null) => {
     setFilter(value == null ? 'all' : value);

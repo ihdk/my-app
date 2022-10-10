@@ -17,6 +17,7 @@ import { setAddingNewItemReducer, setFiltersCountReducer, removedItemReducer, ad
 import type { RootState } from '../../store/store';
 import type { ItemType, TodoType } from '../../assets/types';
 
+/** Component props type */
 type Props = {
   data: ItemType;
   todo: TodoType;
@@ -24,14 +25,17 @@ type Props = {
 }
 
 const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
-  const [editing, setEditing] = useState(newItem);
   const theme = useTheme();
   const dispatch = useDispatch()
   const queryClient = useQueryClient();
 
-  const allItems = useSelector<RootState, ItemType[]>((state) => state.todos.allItems);
-  const date = dayjs(data.date).format('DD.MM.YYYY HH:mm');
+  // check if would be displayed edit form or todo item 
+  const [editing, setEditing] = useState(newItem);
 
+  const allItems = useSelector<RootState, ItemType[]>((state) => state.todos.allItems);
+
+  // Mutate item functions, displayed are notification messages until promises are resolved
+  // In case of error, invalidate query to refetch correct data from api, 
   const { mutateAsync: mutateAsyncAddItem } = useMutation(addItem, {
     onError: () => queryClient.invalidateQueries('todo')
   });
@@ -44,15 +48,27 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
     onError: () => queryClient.invalidateQueries('todo')
   });
 
+  /** Check if todo item is after deadline date */
   const afterDeadline = isAfterDeadline(data);
+  
+  /** Color that describe current todo item state (finished or after deadline) */
   const markColor = data.finished ? theme.palette.success.light : (afterDeadline ? theme.palette.error.light : null);
   
+  /**
+   * Mark todo item as finished, save updated data
+   */
   const handleItemFinished = () => {
     saveItem({ ...data, finished: !data.finished });
   }
 
+  /**
+   * Save todo item data for new item or edited existing item
+   * 
+   * @param itemData data of todo item that will be saved
+   */
   const saveItem = (itemData: ItemType) => {
     if (newItem) {
+      // update state to show new data immediately
       dispatch(addedItemReducer({ allItems: allItems, itemData: itemData }));
       dispatch(setAddingNewItemReducer(false));
 
@@ -60,40 +76,45 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
       const currentItems = store.getState().todos.allItems;
       dispatch(setFiltersCountReducer(currentItems));
 
-      // send api request to add new item
-      // in case of error, query will be invalidated and current items data refetched
+      //finally send data via api
       const promise = mutateAsyncAddItem({ ...todo, items: currentItems });
       notify('add', itemData.title, promise);
 
     } else {
+      // update state to show new data immediately
       dispatch(editedItemReducer({ allItems: allItems, itemData: itemData }));
 
       //with updated allItems state continue to update other states...
       const currentItems = store.getState().todos.allItems;
       dispatch(setFiltersCountReducer(currentItems));
 
-      // send api request to update item data, 
-      // in case of error, query will be invalidated and current items data refetched
+      //finally send data via api
       const promise = mutateAsyncEditItem({ ...todo, items: currentItems });
       notify('edit', itemData.title, promise);
     }
 
   }
 
+  /**
+   * Delete todo item
+   */
   const handleDeleteItem = () => {
+    // update state see removed item immediately
     dispatch(removedItemReducer({ allItems: allItems, removeId: data.id }));
 
     //with updated allItems state continue to update other states...
     const currentItems = store.getState().todos.allItems;
     dispatch(setFiltersCountReducer(currentItems));
 
-    // async deletion request to api, in case of error will be invalidated query to refetch current data via api
-    // in case of success, we do not need to do anything
+    //finally send data via api
     const promise = mutateAsyncDeleteItem({ ...todo, items: currentItems });
     notify('delete', data.title, promise);
   }
 
-  const Item = () => {
+  /**
+   * Renders todo item 
+   */
+  const Item: React.FC = () => {
     return (
       <Grid item xs={12}>
         <Card key={`id-${data.id}`} className="item-wrapper" sx={{ borderLeft: markColor !== null ? `5px solid ${markColor}` : "" }}>
@@ -104,7 +125,7 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
               </Grid>
               <Grid item xs={12} md={4} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", [theme.breakpoints.down('md')]: { justifyContent: 'flex-start' } }}>
                 <ScheduleIcon sx={{ color: markColor !== null ? markColor : "", mr: theme.spacing(1) }} fontSize="inherit" />
-                <Typography color={markColor !== null ? markColor : ""} component="div" fontWeight={afterDeadline ? "600" : ""} >{date}</Typography>
+                <Typography color={markColor !== null ? markColor : ""} component="div" fontWeight={afterDeadline ? "600" : ""} >{dayjs(data.date).format('DD.MM.YYYY HH:mm')}</Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" component="div" color="text.secondary" sx={{ whiteSpace: "pre-line", mt: theme.spacing(1) }}>{data.description}</Typography>
@@ -145,6 +166,7 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
     )
   };
 
+  // decide if render edit form or todo item data
   return (
     editing ? <ItemForm data={data} saveItem={saveItem} setEditing={setEditing} newItem={newItem} /> : <Item />
   );

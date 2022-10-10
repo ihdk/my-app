@@ -10,20 +10,33 @@ import { addTodo } from '../../assets/apiFetcher';
 import { store } from '../../store/store';
 import { addedTodoReducer } from '../../store/todosSlice';
 
+/**
+ * Renders add new todo button 
+ */
 const AddNewTodo = () => {
-  const [opened, setOpened] = useState(false);
-
   const dispatch = useDispatch();
   const theme = useTheme();
   const queryClient = useQueryClient();
+  
+  // state of opened add new todo form
+  const [opened, setOpened] = useState(false);
+
+  /** Input field reference to set new todo name */
   const newTodoInputRef = useRef<HTMLInputElement>(null);
 
+  // Mutate todo add function, displayed is notification message until promise resolved
   const { mutateAsync: mutateAsyncAddTodo } = useMutation(addTodo, {
     // invalidate query after thrown api error to refetch correct data in dashboard, 
     // error message displayed in notification
     onError: () => queryClient.invalidateQueries('todos')
   });
 
+  /**
+   * Get data for new todo list
+   * 
+   * @param name name of new todo list
+   * @returns data of new todo list
+   */
   const getNewTodoData = (name: string): { title: string, items: [] } => {
     return {
       title: name,
@@ -31,7 +44,11 @@ const AddNewTodo = () => {
     }
   }
 
+  /**
+   * Handle adding of new todo list
+   */
   const handleInsert = () => {
+
     if( newTodoInputRef.current === null ) return;
 
     if (newTodoInputRef.current.value === "") {
@@ -39,15 +56,20 @@ const AddNewTodo = () => {
       return null;
     }
     
+    // close add new todo form
     setOpened(false);
 
-    // async add request to api, in case of error will be invalidated query to refetch current data via api
-    const promise = mutateAsyncAddTodo(getNewTodoData(newTodoInputRef.current.value))
+    // add new todo and display appropriate message
+    // wait for api response as we need to know todo ID defined in db, ID is used in react router
+    const name = newTodoInputRef.current.value;
+    const promise = mutateAsyncAddTodo(getNewTodoData(name))
       .then((newTodoData) => {
+        // update `allTodos` state to display current todos
         dispatch(addedTodoReducer({ allTodos: store.getState().todos.allTodos, todoData: newTodoData }));
       });
 
-    notify('add', newTodoInputRef.current.value, promise);
+    notify('add', name, promise);
+
     newTodoInputRef.current.value = "";
   }
 
@@ -63,7 +85,7 @@ const AddNewTodo = () => {
             inputRef={newTodoInputRef}
             sx={{ width: "100%" }}
             autoFocus
-            inputProps={{ autoComplete: "off" }} // maybe just hotfix to disable autocomplete
+            inputProps={{ autoComplete: "off" }}
           />
         </DialogContent>
         <DialogActions>

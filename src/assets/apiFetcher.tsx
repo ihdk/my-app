@@ -4,16 +4,29 @@ import { TodoType } from './types';
 
 const apiUrlBase = "https://631f480022cefb1edc48005f.mockapi.io/amcef";
 
+/**
+ * Get all todos for dashboard page
+ * @returns react query
+ */
 export const useGetTodos = () => {
   const getTodos = (): Promise<TodoType[]> => axios.get(`${apiUrlBase}/test`).then(response => response.data);
   return useQuery('todos', getTodos) 
 }
 
+/**
+ * Get todo information on todo detail page
+ * @param todoId ID of todo list to get
+ * @returns react query
+ */
 export const useGetTodo = (todoId: string): UseQueryResult<TodoType> => {
   const getTodo = (todoId: string):Promise<TodoType> => axios.get(`${apiUrlBase}/test/${todoId}`).then(response => response.data);
   return useQuery('todo', () => getTodo(todoId)) 
 }
 
+/**
+ * Add new todo item
+ * @param data data of todo list with updated items data
+ */
 export const addItem = async (data: TodoType): Promise<void> => {
   await axios.put(`${apiUrlBase}/test/${data.id}`, data)
   .then((response) => {
@@ -23,6 +36,10 @@ export const addItem = async (data: TodoType): Promise<void> => {
   });
 }
 
+/**
+ * Edit todo item
+ * @param data data of todo list with updated items data
+ */
 export const editItem = async (data: TodoType): Promise<void> => {
   await axios.put(`${apiUrlBase}/test/${data.id}`, data)
   .then((response) => {
@@ -32,6 +49,10 @@ export const editItem = async (data: TodoType): Promise<void> => {
   })
 }
 
+/**
+ * Remove todo item
+ * @param data data of todo list with updated items data
+ */
 export const deleteItem = async (data: TodoType): Promise<void> => {
   await axios.put(`${apiUrlBase}/test/${data.id}`, data)
   .then((response) => {
@@ -41,6 +62,10 @@ export const deleteItem = async (data: TodoType): Promise<void> => {
   })
 }
 
+/**
+ * Add new todo list
+ * @param data data of new todo list
+ */
 export const addTodo = async (data: TodoType): Promise<TodoType> => {
   const response = await axios.post(`${apiUrlBase}/test`, data)
   .then((response) => {
@@ -51,6 +76,10 @@ export const addTodo = async (data: TodoType): Promise<TodoType> => {
   return response;
 }
 
+/**
+ * Edit todo list
+ * @param data data of todo list
+ */
 export const editTodo = async (data: TodoType): Promise<void> => {
   await axios.put(`${apiUrlBase}/test/${data.id}`, data)
   .then((response) => {
@@ -60,6 +89,10 @@ export const editTodo = async (data: TodoType): Promise<void> => {
   })
 }
 
+/**
+ * Remove todo list
+ * @param data data of todo list
+ */
 export const deleteTodo = async (data: TodoType): Promise<void> => {
   await axios.delete(`${apiUrlBase}/test/${data.id}`)
   .then((response) => {
@@ -69,9 +102,17 @@ export const deleteTodo = async (data: TodoType): Promise<void> => {
   })
 }
 
+/**
+ * Insert new demo todos
+ * 
+ * @param data new demo todos list
+ * @param allTodos existing todos list
+ * @returns 
+ */
 export const importDemo = async (data: TodoType[], allTodos: TodoType[]) : Promise<TodoType[]> => {
   let requests = [];
 
+  // remove all existing todos
   for (let i = 0; i < allTodos.length; i++) {
     const todo = allTodos[i];
     requests.push( 
@@ -87,6 +128,7 @@ export const importDemo = async (data: TodoType[], allTodos: TodoType[]) : Promi
     throw new Error(error);
   })
 
+  // add new demo todos
   requests = [];
   for (let i = 0; i < data.length; i++) {
     const todo = data[i];

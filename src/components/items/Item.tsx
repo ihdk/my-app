@@ -50,10 +50,10 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
 
   /** Check if todo item is after deadline date */
   const afterDeadline = isAfterDeadline(data);
-  
+
   /** Color that describe current todo item state (finished or after deadline) */
   const markColor = data.finished ? theme.palette.success.light : (afterDeadline ? theme.palette.error.light : null);
-  
+
   /**
    * Mark todo item as finished, save updated data
    */

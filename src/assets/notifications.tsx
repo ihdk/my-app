@@ -16,17 +16,17 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
     case 'add':
       text.pending = "Adding";
       text.success = "Successfully added";
-      text.error   = "Failed to add";
+      text.error = "Failed to add";
       break;
     case 'delete':
       text.pending = "Removing";
       text.success = "Successfully removed";
-      text.error   = "Failed to remove";
+      text.error = "Failed to remove";
       break;
     case 'edit':
       text.pending = "Saving";
       text.success = "Successfully saved";
-      text.error   = "Failed to edit";
+      text.error = "Failed to edit";
       break;
     default:
       return null;
@@ -36,27 +36,27 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
     promise,
     {
       pending: {
-        render(){
+        render() {
           return (
-          <>
-            <Typography variant="body1" fontWeight={600} display="block">{text.pending}</Typography>
-            <Typography variant="body2" display="block">"{itemName}"</Typography>
-          </>
+            <>
+              <Typography variant="body1" fontWeight={600} display="block">{text.pending}</Typography>
+              <Typography variant="body2" display="block">"{itemName}"</Typography>
+            </>
           )
         }
       },
       success: {
-        render(){
+        render() {
           return (
-          <>
-            <Typography variant="body1" fontWeight={600} display="block">{text.success}</Typography>
-            <Typography variant="body2" display="block">"{itemName}"</Typography>
-          </>
+            <>
+              <Typography variant="body1" fontWeight={600} display="block">{text.success}</Typography>
+              <Typography variant="body2" display="block">"{itemName}"</Typography>
+            </>
           )
         }
       },
       error: {
-        render({data}){
+        render({ data }) {
           return (
             <>
               <Typography variant="body1" fontWeight={600} display="block">{text.error}</Typography>
@@ -76,22 +76,22 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
  * @param promise promise of processed action
  * @returns 
  */
-export const demoNotify = ( promise: Promise<void> ) => {
+export const demoNotify = (promise: Promise<void>) => {
   toast.promise(
     promise,
     {
       pending: {
-        render(){
+        render() {
           return <Typography variant="body1" fontWeight={600} display="block">Loading demo data...</Typography>
         }
       },
       success: {
-        render(){
+        render() {
           return <Typography variant="body1" fontWeight={600} display="block">Successfully loaded</Typography>
         }
       },
       error: {
-        render({data}){
+        render({ data }) {
           return (
             <>
               <Typography variant="body1" fontWeight={600} display="block">Something went wrong</Typography>

@@ -17,7 +17,7 @@ const AddNewTodo: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const queryClient = useQueryClient();
-  
+
   // state of opened add new todo form
   const [opened, setOpened] = useState(false);
 
@@ -49,13 +49,13 @@ const AddNewTodo: React.FC = () => {
    */
   const handleInsert = () => {
 
-    if( newTodoInputRef.current === null ) return;
+    if (newTodoInputRef.current === null) return;
 
     if (newTodoInputRef.current.value === "") {
       newTodoInputRef.current.focus();
       return null;
     }
-    
+
     // close add new todo form
     setOpened(false);
 

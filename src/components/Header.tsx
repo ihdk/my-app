@@ -11,7 +11,7 @@ import HomeIcon from '@mui/icons-material/Home';
  */
 const Header: React.FC = () => {
   const theme = useTheme();
-  
+
   /** Check if is opened dashboard page */
   const isDashboard = useMatch('/') !== null;
 
@@ -22,12 +22,12 @@ const Header: React.FC = () => {
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={10}>
               <Link href="/" underline="none" color="inherit" >
-                <Stack direction="row" spacing={1} sx={{ alignItems: "center"}} >
-                  <SpeakerNotesIcon fontSize="large" sx={{ color: "#ffffff" }}/>
-                  <Stack 
-                    direction={{ xs: "column", md: "row" }} 
-                    spacing={{ xs: 0, md: 1 }} 
-                    sx={{ alignItems: "flex-end" , [theme.breakpoints.down('md')]: { alignItems: "flex-start" } }} 
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center" }} >
+                  <SpeakerNotesIcon fontSize="large" sx={{ color: "#ffffff" }} />
+                  <Stack
+                    direction={{ xs: "column", md: "row" }}
+                    spacing={{ xs: 0, md: 1 }}
+                    sx={{ alignItems: "flex-end", [theme.breakpoints.down('md')]: { alignItems: "flex-start" } }}
                   >
                     <Typography component="div" variant="h2" color="#ffffff">AMCEF demo</Typography>
                     <Typography component="div" color="#ffffff" sx={{ opacity: 0.5 }}>/ my TODO list</Typography>
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
                 </Stack>
               </Link>
             </Grid>
-            { !isDashboard && 
+            {!isDashboard &&
               <Grid item xs={2} sx={{ textAlign: "right" }} >
                 <Button href="/" color="inherit" startIcon={<HomeIcon />} sx={{ [theme.breakpoints.down('md')]: { display: "none" } }} >Dashboard</Button>
                 <Button href="/" color="inherit" sx={{ display: "none", [theme.breakpoints.down('md')]: { display: "inline-flex" } }}><HomeIcon /></Button>

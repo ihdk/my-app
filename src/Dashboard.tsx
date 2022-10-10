@@ -21,16 +21,16 @@ import type { TodoType } from './assets/types';
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  
+
   /** All todos stored in global state */
   const allTodos = useSelector<RootState, TodoType[]>((state) => state.todos.allTodos);
 
   /** Search term typed by user */
   const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
-  
+
   // Check if data loaded from api are saved in global state - prevent rendering of <Screen> component with no results message before data dispatched to `allTodos`
   const [dataDispatched, setDataDispatched] = useState(false);
-  
+
   const { data: todos, error, isError, isLoading, isSuccess } = useGetTodos();
 
   // set loaded todos to global state

@@ -12,7 +12,7 @@ import type { RootState } from '../store/store';
  */
 const SearchBar: React.FC = () => {
   const dispatch = useDispatch();
-  
+
   /** Search term typed by user */
   const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
 

@@ -40,7 +40,7 @@ const DemoData: React.FC = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle color="primary" id="alert-dialog-title">
           Import demo data
         </DialogTitle>
         <DialogContent>

@@ -19,7 +19,7 @@ declare module '@mui/material/styles' {
   interface TypeText {
     white: string;
     light: string;
-  } 
+  }
 }
 
 /** MUI theme */

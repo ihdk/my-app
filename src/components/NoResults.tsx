@@ -11,7 +11,7 @@ const NothingToShow: React.FC = () => {
   const theme = useTheme();
   return (
     <Box textAlign="center">
-      <SentimentVeryDissatisfiedIcon sx={{ color: theme.palette.grey[300], fontSize:"10rem" }} />
+      <SentimentVeryDissatisfiedIcon sx={{ color: theme.palette.grey[300], fontSize: "10rem" }} />
       <Typography component="div" variant="h1" sx={{ color: theme.palette.grey[300] }}>Nothing to show</Typography>
     </Box>
   );

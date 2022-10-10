@@ -40,11 +40,11 @@ export const todosSlice = createSlice({
         return item.id !== removeId
       });
     },
-    addedItemReducer: (state, action: PayloadAction<{ allItems: ItemType[], itemData: ItemType}>) => {
+    addedItemReducer: (state, action: PayloadAction<{ allItems: ItemType[], itemData: ItemType }>) => {
       const { allItems, itemData } = action.payload;
       state.allItems = [itemData, ...allItems];
     },
-    editedItemReducer: (state, action: PayloadAction<{ allItems: ItemType[], itemData: ItemType}>) => {
+    editedItemReducer: (state, action: PayloadAction<{ allItems: ItemType[], itemData: ItemType }>) => {
       const { allItems, itemData } = action.payload;
       state.allItems = allItems.map((item) => {
         return item.id === itemData.id ? itemData : item;

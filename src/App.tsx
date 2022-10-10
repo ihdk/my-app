@@ -1,3 +1,4 @@
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux'
@@ -74,7 +75,7 @@ const queryClient = new QueryClient({
 /**
   * Main app component
   */
-const App = () => {
+const App: React.FC = () => {
   const router = createBrowserRouter([
     {
       path: "/",

@@ -18,7 +18,7 @@ import type { TodoType } from './assets/types';
 /**
  * Renders dashboard page with all todos
  */
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   
@@ -45,7 +45,7 @@ const Dashboard = () => {
   /**
     * Main section with listed todo lists
     */
-  const Screen = () => {
+  const Screen: React.FC = () => {
 
     if (isLoading) {
       return <Box sx={{ textAlign: "center" }}><CircularProgress /></Box>

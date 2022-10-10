@@ -27,7 +27,7 @@ const useFilterParamFromUrl = () => {
 /**
  * Renders page of opened todo
  */
-const TodoPage = () => {
+const TodoPage: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const match = useMatch('/todo/:id');
@@ -132,7 +132,7 @@ const TodoPage = () => {
   /**
     * Section to add new and filter displayed todo items
     */
-  const Toolbar = () => {
+  const Toolbar: React.FC = () => {
     return (
       <Box sx={{ mb: theme.spacing(4) }}>
         <Grid container spacing={{ xs: 2, md: 1 }}>
@@ -162,7 +162,7 @@ const TodoPage = () => {
   /**
     * Section with todo item title and additional information
     */
-  const Title = () => {
+  const Title: React.FC = () => {
     type FilterCountsKey = keyof typeof filterCounts;
     const currentCount = filterCounts[filter as FilterCountsKey];
 
@@ -177,7 +177,7 @@ const TodoPage = () => {
   /**
     * Main section with listed todo items
     */
-  const Screen = () => {
+  const Screen: React.FC = () => {
     if (isLoading) {
       return <Box sx={{ textAlign: "center" }}><CircularProgress /></Box>
     }

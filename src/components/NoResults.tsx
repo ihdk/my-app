@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useTheme } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
@@ -5,7 +7,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 /**
  * Renders "nothing found" information 
  */
-const NothingToShow = () => {
+const NothingToShow: React.FC = () => {
   const theme = useTheme();
   return (
     <Box textAlign="center">

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { TextField, Button, Stack, Box } from '@mui/material';
@@ -10,7 +10,7 @@ import type { RootState } from '../store/store';
 /**
  * Component renders search bar in dashboard
  */
-const SearchBar = () => {
+const SearchBar: React.FC = () => {
   const dispatch = useDispatch();
   
   /** Search term typed by user */

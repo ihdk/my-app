@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from "react-query";
 
@@ -13,7 +13,7 @@ import { addedTodoReducer } from '../../store/todosSlice';
 /**
  * Renders add new todo button 
  */
-const AddNewTodo = () => {
+const AddNewTodo: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const queryClient = useQueryClient();

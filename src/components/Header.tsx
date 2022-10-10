@@ -1,3 +1,4 @@
+import React from 'react';
 import { useMatch } from 'react-router-dom';
 
 import { useTheme } from '@mui/material/styles';
@@ -8,7 +9,7 @@ import HomeIcon from '@mui/icons-material/Home';
 /**
  * Renders header of app
  */
-const Header = () => {
+const Header: React.FC = () => {
   const theme = useTheme();
   
   /** Check if is opened dashboard page */

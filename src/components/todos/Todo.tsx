@@ -100,7 +100,7 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
   /**
    * Renders edit form if todo is in edit state
    */
-  const EditForm = () => {
+  const EditForm: React.FC = () => {
     return (
       <Box>
         <Typography gutterBottom color="primary" component="div" variant="h6" >New list name:</Typography>

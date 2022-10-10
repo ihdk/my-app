@@ -185,14 +185,14 @@
                 "title": "Bitchip",
                 "date": "2022-11-19T12:58:30Z",
                 "description": "Plaque Radiation of Peripheral Nerve",
-                "finished": false
+                "finished": true
             },
             {
                 "id": 2,
                 "title": "Alpha",
                 "date": "2022-08-07T02:12:28Z",
                 "description": "Supplement Left Subclavian Vein with Autologous Tissue Substitute, Percutaneous Endoscopic Approach",
-                "finished": false
+                "finished": true
             },
             {
                 "id": 3,
@@ -206,7 +206,7 @@
                 "title": "Quo Lux",
                 "date": "2022-08-28T13:34:45Z",
                 "description": "Drainage of Left Peroneal Artery, Open Approach, Diagnostic",
-                "finished": false
+                "finished": true
             }
         ]
     },

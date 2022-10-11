@@ -28,8 +28,6 @@ const SearchBar: React.FC = () => {
       if (searchInputRef.current === null) return;
       // store search term in global state
       dispatch(setSearchTermReducer(debouncedSearchTerm))
-      // prevent lose of focus after rerender
-      searchInputRef.current.focus();
     }, 500)
 
     return () => clearTimeout(timer);

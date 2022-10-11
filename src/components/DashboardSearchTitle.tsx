@@ -16,12 +16,11 @@ import type { RootState } from '../store/store';
 const DashboardSearchTitle: React.FC<{ todos: number, items: number }> = (props) => {
   const theme = useTheme();
   const { todos, items } = props;
-
-  /** Search term defined by user */
   const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
-  let subtitle = `Keyword found in ${todos} ` + (todos == 1 ? "todo" : "todos");
+
+  let subtitle = `Keyword found in ${todos} ` + (todos === 1 ? "todo" : "todos");
   if (items > 0) {
-    subtitle += ` including ${items} ` + (items == 1 ? "item" : "items");
+    subtitle += ` including ${items} ` + (items === 1 ? "item" : "items");
   }
   return (
     <Box sx={{ m: theme.spacing(4, 0) }}>

@@ -7,7 +7,6 @@ import { Typography } from '@mui/material';
  * @param type type of notification
  * @param itemName name of processed record
  * @param promise promise of processed action
- * @returns 
  */
 export const notify = (type: string, itemName: string, promise: Promise<void>) => {
   const text = { pending: "", success: "", error: "" }
@@ -74,7 +73,6 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
  * Displays notification message while demo data are processed
  * 
  * @param promise promise of processed action
- * @returns 
  */
 export const demoNotify = (promise: Promise<void>) => {
   toast.promise(

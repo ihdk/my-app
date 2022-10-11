@@ -10,8 +10,6 @@ export const isAfterDeadline: (item: ItemType) => boolean = (item) => {
   return (Date.now() > new Date(item.date).getTime()) && (item.finished === false);
 }
 
-
-
 /**
  * Simple todos filter, search by keyword in todos and todo items
  * 
@@ -39,7 +37,7 @@ export const filterTodos: (todos: TodoType[], searchTerm: string) => { filteredT
           foundInItem = true;
         }
       }
-      
+      // increment todos counter once if keyword was found in items list
       if (foundInItem) todosCounter++;
     }
     return found;

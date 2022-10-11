@@ -10,7 +10,7 @@ import Todo from './components/todos/Todo';
 import DashboardToolbar from './components/DashboardToolbar';
 import DemoData from './components/DemoData';
 import { useGetTodos } from './assets/apiFetcher';
-import { filterTodos as filterTodos } from './assets/helpers';
+import { filterTodos } from './assets/helpers';
 import { setAllTodosReducer } from './store/todosSlice';
 
 import type { RootState } from './store/store';
@@ -22,8 +22,6 @@ import type { TodoType } from './assets/types';
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
-
-  /** All todos stored in global state */
   const allTodos = useSelector<RootState, TodoType[]>((state) => state.todos.allTodos);
 
   /** Search term typed by user */
@@ -42,6 +40,7 @@ const Dashboard: React.FC = () => {
       setDataDispatched(true);
     }
   }, [todos, dispatch, isSuccess])
+
 
   /**
     * Main section with listed todo lists

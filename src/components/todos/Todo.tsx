@@ -17,7 +17,7 @@ import type { TodoType } from '../../assets/types';
 
 
 /**
- * Renders todo in dashboard
+ * Renders todo list in dashboard
  * 
  * @param data todo list data
  */
@@ -25,12 +25,10 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-
-  // check if todo is currently in edit state to decide if edit form is displayed
-  const [editing, setEditing] = useState(false);
-
-  /** All todos stored in global state */
   const allTodos = useSelector<RootState, TodoType[]>((state) => state.todos.allTodos);
+
+  // Check if todo is currently in edit state to decide if edit form is displayed
+  const [editing, setEditing] = useState(false);
 
   /** Input field reference to edit todo name */
   const renameTodoInputRef = useRef<HTMLInputElement>(null);
@@ -64,8 +62,9 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
     }
   });
 
+  
   /**
-   * Handle actions to delete todo
+   * Handle actions to delete todo list
    */
   const handleDeleteTodo = () => {
     dispatch(removedTodoReducer({ allTodos: allTodos, removeId: id }));
@@ -75,14 +74,14 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
     notify('delete', data.title, promise);
   }
 
+
   /**
-   * Handle actions to rename todo
+   * Handle actions to rename todo list
    */
   const handleRenameTodo = () => {
     if (renameTodoInputRef.current === null) return;
 
     if (renameTodoInputRef.current.value !== "") {
-      /** Edited todo data */
       const newData = { ...data, title: renameTodoInputRef.current.value };
       dispatch(editedTodoReducer({ allTodos: allTodos, todoData: newData }));
       setEditing(false);
@@ -97,6 +96,7 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
     }
   }
 
+
   /**
    * Renders edit form if todo is in edit state
    */
@@ -105,13 +105,13 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
       <Box>
         <Typography gutterBottom color="primary" component="div" variant="h6" >New list name:</Typography>
         <TextField
-          hiddenLabel
           variant="outlined"
           size="small"
           defaultValue={title}
           inputRef={renameTodoInputRef}
-          sx={{ fontSize: ".9rem", width: "100%", mb: theme.spacing(1) }}
           inputProps={{ autoComplete: "off" }}
+          sx={{ fontSize: ".9rem", width: "100%", mb: theme.spacing(1) }}
+          hiddenLabel
         />
         <Stack direction="row" spacing={1}>
           <Button variant="outlined" onClick={handleRenameTodo} >Save</Button>

@@ -31,24 +31,16 @@ const TodoPage: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const match = useMatch('/todo/:id');
-
-  /** Possible states of todo items ['all', 'active', 'finished', 'missed']*/
   const filterStates = ['all', 'active', 'finished', 'missed'];
-
-  /** Parameter with state of todo items that will be displayed on page load */
   const paramState = useFilterParamFromUrl();
+  const todoId = match !== null && match.params.id !== undefined ? match.params.id : "";
+  const allItems = useSelector<RootState, ItemType[]>((state) => state.todos.allItems);
 
-  // Currently selected states filter of todo items states `filter`
+  // Currently selected state filter
   const [filter, setFilter] = useState(paramState && filterStates.includes(paramState) ? paramState : 'all');
 
   // Check if data loaded from api are saved in global state - prevent rendering of <Screen> component with no results message before data dispatched to `allItems`
   const [dataDispatched, setDataDispatched] = useState(false);
-
-  /** ID of currently opened todo page */
-  const todoId = match !== null && match.params.id !== undefined ? match.params.id : "";
-
-  /** All todo items of currently opened todo */
-  const allItems = useSelector<RootState, ItemType[]>((state) => state.todos.allItems);
 
   /** Counts number of todo items for each state ['all', 'active', 'finished', 'missed'] */
   const filterCounts = useSelector<RootState, FiltersCountType>((state) => state.todos.filterCounts);
@@ -67,6 +59,7 @@ const TodoPage: React.FC = () => {
     }
   }, [todo, dispatch, isSuccess])
 
+
   /**
    * Handle change of todo items state `filter`
    * 
@@ -77,12 +70,14 @@ const TodoPage: React.FC = () => {
     setFilter(value == null ? 'all' : value);
   };
 
+
   /**
-   * Handle change of `addingNewItem` global state
+   * Handle change of `addingNewItem` global state to decide if display new item form
    */
-  const handleAddNewItem = () => {
+  const handleAddingNewItem = () => {
     dispatch(setAddingNewItemReducer(true))
   }
+
 
   /**
     * Get default values for new todo item
@@ -99,6 +94,7 @@ const TodoPage: React.FC = () => {
       id: allItems.length + 1
     }
   }
+
 
   /**
    * Filter todo items by currently selected states `filter`
@@ -129,6 +125,7 @@ const TodoPage: React.FC = () => {
     }
   }
 
+
   /**
     * Section to add new and filter displayed todo items
     */
@@ -137,7 +134,7 @@ const TodoPage: React.FC = () => {
       <Box sx={{ mb: theme.spacing(4) }}>
         <Grid container spacing={{ xs: 2, md: 1 }}>
           <Grid item xs={12} sm={4}>
-            <Button variant="contained" onClick={handleAddNewItem} sx={{ [theme.breakpoints.down('sm')]: { width: '100%' } }}>Add new item</Button>
+            <Button variant="contained" onClick={handleAddingNewItem} sx={{ [theme.breakpoints.down('sm')]: { width: '100%' } }}>Add new item</Button>
           </Grid>
           <Grid item xs={12} sm={8} sx={{ textAlign: "right", [theme.breakpoints.down('sm')]: { textAlign: "center" } }}>
             <ToggleButtonGroup
@@ -159,6 +156,7 @@ const TodoPage: React.FC = () => {
     )
   }
 
+
   /**
     * Section with todo item title and additional information
     */
@@ -174,6 +172,7 @@ const TodoPage: React.FC = () => {
       : null;
   }
 
+
   /**
     * Main section with listed todo items
     */
@@ -188,6 +187,7 @@ const TodoPage: React.FC = () => {
 
     if (isSuccess && dataDispatched) {
       const filteredItems = getFilteredItems(allItems);
+
       if (filteredItems.length === 0) {
         return addingNewItem === false
           ? <NothingToShow />

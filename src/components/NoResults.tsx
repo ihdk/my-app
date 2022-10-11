@@ -9,6 +9,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
  */
 const NothingToShow: React.FC = () => {
   const theme = useTheme();
+  
   return (
     <Box textAlign="center">
       <SentimentVeryDissatisfiedIcon sx={{ color: theme.palette.grey[300], fontSize: "10rem" }} />

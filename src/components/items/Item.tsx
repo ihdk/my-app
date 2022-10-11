@@ -24,15 +24,22 @@ type Props = {
   newItem?: boolean;
 }
 
+/**
+ * Renders todo item
+ * 
+ * @param Props.data item data
+ * @param Props.todo todo data
+ * @param Props.newItem if item is new currently added item
+ */
 const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
   const theme = useTheme();
   const dispatch = useDispatch()
   const queryClient = useQueryClient();
+  const allItems = useSelector<RootState, ItemType[]>((state) => state.todos.allItems);
 
   // check if would be displayed edit form or todo item 
   const [editing, setEditing] = useState(newItem);
 
-  const allItems = useSelector<RootState, ItemType[]>((state) => state.todos.allItems);
 
   // Mutate item functions, displayed are notification messages until promises are resolved
   // In case of error, invalidate query to refetch correct data from api, 
@@ -54,12 +61,14 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
   /** Color that describe current todo item state (finished or after deadline) */
   const markColor = data.finished ? theme.palette.success.light : (afterDeadline ? theme.palette.error.light : null);
 
+
   /**
    * Mark todo item as finished, save updated data
    */
   const handleItemFinished = () => {
     saveItem({ ...data, finished: !data.finished });
   }
+
 
   /**
    * Save todo item data for new item or edited existing item
@@ -95,6 +104,7 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
 
   }
 
+
   /**
    * Delete todo item
    */
@@ -110,6 +120,7 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
     const promise = mutateAsyncDeleteItem({ ...todo, items: currentItems });
     notify('delete', data.title, promise);
   }
+
 
   /**
    * Renders todo item 
@@ -136,11 +147,7 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
           <CardActions>
             <Grid container spacing={0}>
               <Grid item xs={8} md={8}>
-                <Stack
-                  direction="row"
-                  divider={<Divider orientation="vertical" flexItem />}
-                  spacing={2}
-                >
+                <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
                   <Button
                     size="small"
                     color={data.finished ? "error" : "success"}
@@ -153,11 +160,7 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
                 </Stack>
               </Grid>
               <Grid item xs={4} md={4} sx={{ textAlign: "right" }}>
-                <Button
-                  size="small"
-                  color="error"
-                  onClick={handleDeleteItem}
-                >Delete</Button>
+                <Button size="small" color="error" onClick={handleDeleteItem}>Delete</Button>
               </Grid>
             </Grid>
           </CardActions>

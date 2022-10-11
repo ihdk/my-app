@@ -12,7 +12,7 @@ type Props = {
 }
 
 /**
- * Renders circle progress bar in todo
+ * Renders circle progress bar in todo list
  */
 const Progress: React.FC<Props> = ({ title = "", min, max, color }) => {
   const theme = useTheme();
@@ -30,10 +30,7 @@ const Progress: React.FC<Props> = ({ title = "", min, max, color }) => {
 
   return (
     <>
-      <Box sx={{
-        display: "flex",
-        justifyContent: "center"
-      }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Box sx={{ position: "relative", display: "inline-flex" }}>
           <CircularProgress
             variant="determinate"

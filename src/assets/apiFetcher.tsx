@@ -107,9 +107,9 @@ export const deleteTodo = async (data: TodoType): Promise<void> => {
  * 
  * @param data new demo todos list
  * @param allTodos existing todos list
- * @returns 
  */
 export const importDemo = async (data: TodoType[], allTodos: TodoType[]): Promise<TodoType[]> => {
+  /** store axios requests to resolve them all at once */
   let requests = [];
 
   // remove all existing todos
@@ -124,6 +124,8 @@ export const importDemo = async (data: TodoType[], allTodos: TodoType[]): Promis
         })
     );
   }
+
+  // no need to get response data, just check if error occurs to show appropriate notification
   await axios.all(requests).catch(error => {
     throw new Error(error);
   })
@@ -142,6 +144,7 @@ export const importDemo = async (data: TodoType[], allTodos: TodoType[]): Promis
     );
   }
 
+  // return response to resolve notification promise and show appropriate success message
   return await axios.all(requests).then((response) => {
     return response;
   }).catch(error => {

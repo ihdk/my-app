@@ -18,7 +18,3 @@ export type FiltersCountType = {
     finished: number;
     missed: number;
 };
-
-export type GetTodosResponse = {
-    data: TodoType[];
-};

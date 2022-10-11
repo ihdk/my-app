@@ -40,8 +40,11 @@ const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false
   const maxDateThreshold = new Date("3000-01-01T00:00:00.000Z");
   const dateFormat = "DD.MM.YYYY HH:mm";
 
+
   /**
-   * Handle form submit and prepare data for save
+   * Handle add/edit item form submit and prepare data for save
+   * 
+   * @param values values submitted by the form
    */
   const handleSubmit = (values: FormData) => {
     const itemData = {
@@ -52,6 +55,7 @@ const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false
     }
     saveItem(itemData);
   }
+
 
   /**
    * Handle close of edit form
@@ -69,7 +73,7 @@ const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false
   /**
    * Custom text field component with formik notifications
    */
-  const EditItemTextField: React.FC<FieldProps & TextFieldProps> = props => {
+  const EditItemTextField: React.FC<FieldProps & TextFieldProps> = (props) => {
     const isTouched = getIn(props.form.touched, props.field.name)
     const errorMessage = getIn(props.form.errors, props.field.name)
     const { error, helperText, field, form, ...rest } = props
@@ -143,17 +147,9 @@ const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false
             <CardContent>
               <Grid container spacing={0}>
                 <Grid item xs={12} >
-                  <Stack
-                    direction="column"
-                    width="100%"
-                    spacing={1}
-                  >
+                  <Stack direction="column" width="100%" spacing={1}>
                     <Typography gutterBottom color="primary" component="div" variant="h6" >{newItem ? "New Item" : "Edit Item"}</Typography>
-                    <Stack
-                      direction="column"
-                      width="100%"
-                      spacing={3}
-                    >
+                    <Stack direction="column" width="100%" spacing={3}>
                       <Field name="title" label="Title" component={EditItemTextField} autoFocus={newItem} />
                       <Field name="description" label="Description" component={EditItemTextField} rows={4} multiline />
                       <EditItemDatepicker />
@@ -164,11 +160,7 @@ const ItemForm: React.FC<Props> = ({ data, saveItem, setEditing, newItem = false
             </CardContent>
             <Divider />
             <CardActions>
-              <Button
-                type="submit"
-                size="small"
-                variant="outlined"
-              >Save</Button>
+              <Button type="submit" size="small" variant="outlined" >Save</Button>
               <Button size="small" sx={{ color: theme.palette.grey[500] }} onClick={handleCancel} >Cancel</Button>
             </CardActions>
           </Card>

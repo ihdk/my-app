@@ -11,33 +11,35 @@ import { setAllTodosReducer } from '../store/todosSlice';
 import { store } from "../store/store";
 
 /**
- * Renders button to import demo data
+ * Renders button and dialog to import demo data
  */
 const DemoData: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const [opened, setOpened] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false);
+
 
   /**
    * Handle import of demo data
    * * all todos are removed before import of demo data
    */
   const handleDemoImport = () => {
-    setOpened(false)
+    setOpened(false);
+    setDisabledButton(true);
     const promise = importDemo(data, store.getState().todos.allTodos)
       .then((demoData) => {
         dispatch(setAllTodosReducer(demoData))
+        setDisabledButton(false);
       });
     demoNotify(promise);
   }
 
   return (
     <>
-      <Button variant="contained" onClick={() => setOpened(true)} sx={{ position: "fixed", bottom: "0", right: "0", m: theme.spacing(2) }} >Import Demo Data</Button>
+      <Button variant="contained" onClick={() => setOpened(true)} disabled={disabledButton} sx={{ position: "fixed", bottom: "0", right: "0", m: theme.spacing(2) }} >Import Demo Data</Button>
       <Dialog open={opened} onClose={() => setOpened(false)}>
-        <DialogTitle color="primary">
-          Import demo data
-        </DialogTitle>
+        <DialogTitle color="primary">Import demo data</DialogTitle>
         <DialogContent>
           <DialogContentText>
             All existing todo lists will be removed before demo import.<br />

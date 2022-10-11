@@ -31,6 +31,7 @@ const AddNewTodo: React.FC = () => {
     onError: () => queryClient.invalidateQueries('todos')
   });
 
+
   /**
    * Get data for new todo list
    * 
@@ -43,6 +44,7 @@ const AddNewTodo: React.FC = () => {
       items: [],
     }
   }
+
 
   /**
    * Handle adding of new todo list
@@ -73,6 +75,7 @@ const AddNewTodo: React.FC = () => {
     newTodoInputRef.current.value = "";
   }
 
+  
   return (
     <>
       <Button variant="contained" onClick={() => setOpened(true)} >Add new list</Button>

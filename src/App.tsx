@@ -22,6 +22,7 @@ declare module '@mui/material/styles' {
   }
 }
 
+
 /** MUI theme */
 let theme = createTheme({
   typography: {
@@ -63,7 +64,8 @@ let theme = createTheme({
 });
 theme = responsiveFontSizes(theme);
 
-/** Create and customize query client, do not refetch data from api on window focus on   */
+
+/** Create and customize query client, do not refetch data from api on window focus */
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -71,6 +73,7 @@ const queryClient = new QueryClient({
     },
   },
 });
+
 
 /**
   * Main app component

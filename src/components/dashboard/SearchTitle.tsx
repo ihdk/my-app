@@ -14,7 +14,7 @@ import type { RootState } from '../../store/store';
  * * `todos` - number of found todos
  * * `items` - number of found todo items
  */
-const DashboardSearchTitle: React.FC<{ todos: number, items: number }> = (props) => {
+const SearchTitle: React.FC<{ todos: number, items: number }> = (props) => {
   const theme = useTheme();
   const { todos, items } = props;
   const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
@@ -33,4 +33,4 @@ const DashboardSearchTitle: React.FC<{ todos: number, items: number }> = (props)
 
 }
 
-export default DashboardSearchTitle;
+export default SearchTitle;

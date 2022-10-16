@@ -10,8 +10,8 @@ import Loader from './components/Loader';
 import DemoData from './components/DemoData';
 import ErrorMessage from './components/ErrorMessage';
 import NothingToShow from './components/NoResults';
-import DashboardToolbar from './components/dashboard/DashboardToolbar';
-import DashboardSearchTitle from './components/dashboard/DashboardSearchTitle';
+import Toolbar from './components/dashboard/Toolbar';
+import SearchTitle from './components/dashboard/SearchTitle';
 import { useGetTodos } from './assets/apiFetcher';
 import { filterTodos } from './assets/helpers';
 import type { RootState } from './store/store';
@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
       if (Object.keys(todosList).length === 0) {
         return (
           <Box>
-            {searchTerm !== "" && <DashboardSearchTitle todos={foundTodos} items={foundItems} />}
+            {searchTerm !== "" && <SearchTitle todos={foundTodos} items={foundItems} />}
             <NothingToShow />
           </Box>
         )
@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
 
       return (
         <Box>
-          {searchTerm !== "" && <DashboardSearchTitle todos={foundTodos} items={foundItems} />}
+          {searchTerm !== "" && <SearchTitle todos={foundTodos} items={foundItems} />}
           <Grid container spacing={3}>
             {Object.values(todosList).reverse().map((todo) => <Todo key={todo.id} data={todo} />)}
           </Grid>
@@ -91,7 +91,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box component="main">
-      <DashboardToolbar />
+      <Toolbar />
       <Box sx={{ mt: theme.spacing(6) }}>
         <Screen />
       </Box>

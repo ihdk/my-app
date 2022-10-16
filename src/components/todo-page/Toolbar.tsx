@@ -17,7 +17,7 @@ import { FiltersCountType } from '../../assets/types';
 /**
  * Renders toolbar section with filter and add new todo item button
  */
-const TodoToolbar: React.FC = () => {
+const Toolbar: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const filter = useSelector<RootState, string>((state) => state.todos.filter);
@@ -70,4 +70,4 @@ const TodoToolbar: React.FC = () => {
 
 }
 
-export default TodoToolbar;
+export default Toolbar;

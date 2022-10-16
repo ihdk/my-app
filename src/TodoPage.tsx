@@ -4,8 +4,8 @@ import { useMatch, useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 
-import TodoTitle from './components/todos/TodoTitle';
-import TodoToolbar from './components/todos/TodoToolbar';
+import Title from './components/todo-page/Title';
+import Toolbar from './components/todo-page/Toolbar';
 import Loader from './components/Loader';
 import Item from './components/items/Item';
 import NothingToShow from './components/NoResults';
@@ -93,8 +93,8 @@ const TodoPage: React.FC = () => {
 
   return (
     <Box component="main">
-      <TodoToolbar />
-      <TodoTitle todo={todo} />
+      <Toolbar />
+      <Title todo={todo} />
       <Screen />
     </Box>
   );

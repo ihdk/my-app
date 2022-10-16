@@ -12,7 +12,7 @@ import { FiltersCountType, TodoType } from '../../assets/types';
 /**
  * Renders title section on todo page
  */
-const TodoTitle: React.FC<{ todo: TodoType | undefined }> = ({ todo }) => {
+const Title: React.FC<{ todo: TodoType | undefined }> = ({ todo }) => {
   const theme = useTheme();
   const filter = useSelector<RootState, string>((state) => state.todos.filter);
   const filterCounts = useSelector<RootState, FiltersCountType>((state) => state.todos.filterCounts);
@@ -29,4 +29,4 @@ const TodoTitle: React.FC<{ todo: TodoType | undefined }> = ({ todo }) => {
 
 }
 
-export default TodoTitle;
+export default Title;

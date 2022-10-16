@@ -5,13 +5,13 @@ import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 
 import SearchBar from './SearchBar';
-import AddNewTodo from '../todos/AddNewTodo';
+import AddNewTodo from './AddNewTodo';
 
 
 /**
  * Renders toolbar with add new todo button and search bar
  */
-const DashboardToolbar: React.FC = () => {
+const Toolbar: React.FC = () => {
   return (
     <Box>
       <Stack
@@ -26,4 +26,4 @@ const DashboardToolbar: React.FC = () => {
   )
 }
 
-export default DashboardToolbar;
+export default Toolbar;

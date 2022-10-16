@@ -37,6 +37,8 @@ const DemoData: React.FC = () => {
       .then((demoData) => {
         dispatch(setAllTodosReducer(demoData))
         setDisabledButton(false);
+      }).catch(() => {
+        setDisabledButton(false);
       });
     demoNotify(promise);
   }

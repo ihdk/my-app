@@ -19,9 +19,8 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 
 import ItemForm from './ItemForm'
 import { notify } from '../../assets/notifications';
-import { store } from '../../store/store';
 import { isAfterDeadline } from '../../assets/helpers';
-import { addItem, deleteItem, editItem } from '../../assets/apiFetcher';
+import { updateTodoItems } from '../../assets/apiFetcher';
 import { setFiltersCountReducer, removedItemReducer, addedItemReducer, setAddingNewItemReducer, editedItemReducer } from '../../store/todosSlice';
 
 import type { ItemType, TodoType } from '../../assets/types';
@@ -66,18 +65,9 @@ const Item: React.FC<ItemProps> = ({ data, todo, newItem = false }) => {
   // Mutate item functions, displayed are notification messages until promises are resolved
   // In case of error, invalidate query to refetch correct data from api
   // In case of success, displayed are data from current state
-  const { mutateAsync: mutateAsyncAddItem } = useMutation(addItem, {
+  const { mutateAsync: mutateAsyncUpdateItem } = useMutation(updateTodoItems, {
     onError: () => queryClient.invalidateQueries('todo')
   });
-
-  const { mutateAsync: mutateAsyncEditItem } = useMutation(editItem, {
-    onError: () => queryClient.invalidateQueries('todo')
-  });
-
-  const { mutateAsync: mutateAsyncDeleteItem } = useMutation(deleteItem, {
-    onError: () => queryClient.invalidateQueries('todo')
-  });
-
 
   /**
    * Delete todo item
@@ -85,13 +75,10 @@ const Item: React.FC<ItemProps> = ({ data, todo, newItem = false }) => {
   const handleDeleteItem = () => {
     // update state see removed item immediately
     dispatch(removedItemReducer(data.id));
-
-    //with updated allItems state continue to update other states...
-    const currentItems = store.getState().todos.allItems;
     dispatch(setFiltersCountReducer());
 
     //finally send data via api
-    const promise = mutateAsyncDeleteItem({ ...todo, items: currentItems });
+    const promise = mutateAsyncUpdateItem(todo);
     notify('delete', data.title, promise);
   }
 
@@ -116,18 +103,16 @@ const Item: React.FC<ItemProps> = ({ data, todo, newItem = false }) => {
       dispatch(setAddingNewItemReducer(false));
       dispatch(setFiltersCountReducer());
 
-      //finally send data via api, use already updated allItems list
-      const promise = mutateAsyncAddItem({ ...todo, items: store.getState().todos.allItems });
-
+      //finally send data via api, used is already updated allItems list
+      const promise = mutateAsyncUpdateItem(todo);
       notify('add', itemData.title, promise);
     } else {
       // update state to show new data immediately
       dispatch(editedItemReducer(itemData));
       dispatch(setFiltersCountReducer());
 
-      //finally send data via api, use already updated allItems list
-      const promise = mutateAsyncEditItem({ ...todo, items: store.getState().todos.allItems });
-
+      //finally send data via api, used is already updated allItems list
+      const promise = mutateAsyncUpdateItem(todo);
       notify('edit', itemData.title, promise);
     }
   }

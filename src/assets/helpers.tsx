@@ -91,3 +91,16 @@ export const getNewItemData = () => {
     finished: false,
   }
 }
+
+/**
+ * Get data for new todo list
+ * 
+ * @param name name of new todo list
+ * @returns data of new todo list
+ */
+export const getNewTodoData = (name: string): { title: string, items: [] } => {
+  return {
+    title: name,
+    items: [],
+  }
+}

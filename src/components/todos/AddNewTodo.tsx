@@ -10,6 +10,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 
+import { getNewTodoData } from '../../assets/helpers';
 import { notify } from '../../assets/notifications';
 import { addTodo } from '../../assets/apiFetcher';
 import { store } from '../../store/store';
@@ -35,20 +36,6 @@ const AddNewTodo: React.FC = () => {
     // error message displayed in notification
     onError: () => queryClient.invalidateQueries('todos')
   });
-
-
-  /**
-   * Get data for new todo list
-   * 
-   * @param name name of new todo list
-   * @returns data of new todo list
-   */
-  const getNewTodoData = (name: string): { title: string, items: [] } => {
-    return {
-      title: name,
-      items: [],
-    }
-  }
 
 
   /**

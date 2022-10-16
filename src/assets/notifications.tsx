@@ -31,6 +31,7 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
       return null;
   }
 
+  // display message depending on resolved promise
   toast.promise(
     promise,
     {
@@ -75,6 +76,7 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
  * @param promise promise of processed action
  */
 export const demoNotify = (promise: Promise<void>) => {
+  // display message depending on resolved promise
   toast.promise(
     promise,
     {

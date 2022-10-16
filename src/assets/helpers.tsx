@@ -1,5 +1,18 @@
 import uuid from 'react-uuid';
 import type { TodoType, ItemType } from '../assets/types';
+
+
+/**
+ * Check if todo item passed deadline date
+ * 
+ * @param item data of todo item to check
+ * @returns boolean
+ */
+const itemDatePassed: (item: ItemType) => boolean = (item) => {
+  return (Date.now() > new Date(item.date).getTime());
+}
+
+
 /**
  * Check if todo item is after deadline date
  * 
@@ -7,7 +20,7 @@ import type { TodoType, ItemType } from '../assets/types';
  * @returns boolean
  */
 export const isAfterDeadline: (item: ItemType) => boolean = (item) => {
-  return (Date.now() > new Date(item.date).getTime()) && (item.finished === false);
+  return itemDatePassed(item) && (item.finished === false);
 }
 
 
@@ -60,7 +73,7 @@ export const getFilteredItems = (items: ItemType[], filter: string): ItemType[] 
       return items
     case 'active':
       return items.filter((item) => {
-        return isAfterDeadline(item) === false;
+        return itemDatePassed(item) === false && item.finished === false;
       });
     case 'finished':
       return items.filter((item) => {

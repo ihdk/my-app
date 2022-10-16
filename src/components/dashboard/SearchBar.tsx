@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { TextField, Button, Stack, Box } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
-import { setSearchTermReducer } from '../store/todosSlice'
+import { setSearchTermReducer } from '../../store/todosSlice'
 
-import type { RootState } from '../store/store';
+import type { RootState } from '../../store/store';
 
 /**
  * Component renders search bar in dashboard
@@ -31,7 +34,7 @@ const SearchBar: React.FC = () => {
     }, 500)
 
     return () => clearTimeout(timer);
-  }, [debouncedSearchTerm, dispatch])
+  }, [debouncedSearchTerm, dispatch]); // satisfy Eslint warning missing deps? included also dispatch
 
 
   /**

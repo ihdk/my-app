@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { useTheme } from '@mui/material/styles';
-import { CircularProgress, Typography, Box } from '@mui/material';
+import useTheme from '@mui/material/styles/useTheme';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 /** Types for component props */
 type Props = {

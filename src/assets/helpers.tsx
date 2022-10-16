@@ -1,5 +1,5 @@
+import uuid from 'react-uuid';
 import type { TodoType, ItemType } from '../assets/types';
-
 /**
  * Check if todo item is after deadline date
  * 
@@ -9,6 +9,7 @@ import type { TodoType, ItemType } from '../assets/types';
 export const isAfterDeadline: (item: ItemType) => boolean = (item) => {
   return (Date.now() > new Date(item.date).getTime()) && (item.finished === false);
 }
+
 
 /**
  * Simple todos filter, search by keyword in todos and todo items
@@ -44,4 +45,49 @@ export const filterTodos: (todos: TodoType[], searchTerm: string) => { filteredT
   })
 
   return { filteredTodos: filteredTodos, todos: todosCounter, items: itemsCounter };
+}
+
+
+/**
+  * Filter todo items by currently selected states `filter`
+  * 
+  * @param items all available todo items
+  * @returns filtered todo items
+  */
+export const getFilteredItems = (items: ItemType[], filter: string): ItemType[] => {
+  switch (filter) {
+    case 'all':
+      return items
+    case 'active':
+      return items.filter((item) => {
+        return isAfterDeadline(item) === false;
+      });
+    case 'finished':
+      return items.filter((item) => {
+        return item.finished === true;
+      });
+    case 'missed':
+      return items.filter((item) => {
+        return isAfterDeadline(item) === true;
+      });
+    default:
+      return items;
+  }
+}
+
+
+/**
+* Get default values for new todo item
+*/
+export const getNewItemData = () => {
+  const newDate = new Date();
+  // set new deadline date to tomorrow
+  newDate.setDate(newDate.getDate() + 1);
+  return {
+    id: uuid(),
+    title: "",
+    description: "",
+    date: newDate.toString(),
+    finished: false,
+  }
 }

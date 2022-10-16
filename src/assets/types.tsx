@@ -5,7 +5,7 @@ export type TodoType = {
 };
 
 export type ItemType = {
-    id?: number; // id not required in data for newly added record, will be defined by api
+    id: string; // uuid used to define ID
     title: string;
     description: string;
     date: string;

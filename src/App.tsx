@@ -5,14 +5,18 @@ import { Provider } from 'react-redux'
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
-import { Box, Container } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import createTheme from '@mui/material/styles/createTheme';
+import responsiveFontSizes from '@mui/material/styles/responsiveFontSizes';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import grey from '@mui/material/colors/grey';
 
 import Dashboard from './Dashboard';
 import TodoPage from './TodoPage';
 import Header from './components/Header';
 import { store } from './store/store';
+
 
 // allow custom colors in MUI palette
 declare module '@mui/material/styles' {
@@ -62,6 +66,7 @@ let theme = createTheme({
     }
   },
 });
+
 theme = responsiveFontSizes(theme);
 
 

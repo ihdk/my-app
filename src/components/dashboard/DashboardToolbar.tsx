@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { Stack, Divider, Box } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 
 import SearchBar from './SearchBar';
-import AddNewTodo from './todos/AddNewTodo';
+import AddNewTodo from '../todos/AddNewTodo';
 
 
 /**

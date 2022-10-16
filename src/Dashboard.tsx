@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { useTheme } from '@mui/material/styles';
-import { Box, Grid, CircularProgress, Typography, Alert } from '@mui/material';
+import useTheme from '@mui/material/styles/useTheme';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
-import DashboardSearchTitle from './components/DashboardSearchTitle';
-import NothingToShow from './components/NoResults';
 import Todo from './components/todos/Todo';
-import DashboardToolbar from './components/DashboardToolbar';
+import Loader from './components/Loader';
 import DemoData from './components/DemoData';
+import ErrorMessage from './components/ErrorMessage';
+import NothingToShow from './components/NoResults';
+import DashboardToolbar from './components/dashboard/DashboardToolbar';
+import DashboardSearchTitle from './components/dashboard/DashboardSearchTitle';
 import { useGetTodos } from './assets/apiFetcher';
 import { filterTodos } from './assets/helpers';
+import type { RootState } from './store/store';
 import { setAllTodosReducer } from './store/todosSlice';
 
-import type { RootState } from './store/store';
 import type { TodoType } from './assets/types';
 
 /**
@@ -23,45 +26,39 @@ const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const allTodos = useSelector<RootState, TodoType[]>((state) => state.todos.allTodos);
-
-  /** Search term typed by user */
   const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
 
-  // Check if data loaded from api are saved in global state - prevent rendering of <Screen> component with no results message before data dispatched to `allTodos`
-  const [dataDispatched, setDataDispatched] = useState(false);
-
+  // Fetch todos from api
   const { data: todos, error, isError, isLoading, isSuccess } = useGetTodos();
 
-  // set loaded todos to global state
+  // Set loaded todos to global state
   useEffect(() => {
     if (isSuccess) {
       dispatch(setAllTodosReducer(todos))
-      // define that data were stored in global state
-      setDataDispatched(true);
     }
-  }, [todos, dispatch, isSuccess])
+  }, [todos, dispatch, isSuccess]); // satisfy Eslint warning missing deps? included also dispatch and isSuccess
 
 
   /**
     * Main section with listed todo lists
     */
-  const Screen: React.FC = () => {
+  const Screen: React.FC = React.forwardRef((props, ref) => {
 
     if (isLoading) {
-      return <Box sx={{ textAlign: "center" }}><CircularProgress /></Box>
+      return <Loader />
     }
 
     if (isError && error instanceof Error) {
-      return <Alert severity="error"><Typography>{error.message}</Typography></Alert>
+      return <ErrorMessage message={error.message} />
     }
 
-    if (isSuccess && dataDispatched) {
+    if (isSuccess && todos !== undefined) {
 
       // maybe filter todos by search term
       let todosList = allTodos;
       let foundTodos = 0;
       let foundItems = 0;
-      if (searchTerm) {
+      if (searchTerm !== "") {
         const filterResults = filterTodos(allTodos, searchTerm);
         todosList = filterResults.filteredTodos;
         foundTodos = filterResults.todos;
@@ -71,26 +68,26 @@ const Dashboard: React.FC = () => {
       // list of Todos is empty
       if (Object.keys(todosList).length === 0) {
         return (
-          <>
-            {searchTerm && <DashboardSearchTitle todos={foundTodos} items={foundItems} />}
+          <Box>
+            {searchTerm !== "" && <DashboardSearchTitle todos={foundTodos} items={foundItems} />}
             <NothingToShow />
-          </>
+          </Box>
         )
       }
 
       return (
-        <>
-          {searchTerm && <DashboardSearchTitle todos={foundTodos} items={foundItems} />}
+        <Box>
+          {searchTerm !== "" && <DashboardSearchTitle todos={foundTodos} items={foundItems} />}
           <Grid container spacing={3}>
             {Object.values(todosList).reverse().map((todo) => <Todo key={todo.id} data={todo} />)}
           </Grid>
-        </>
+        </Box>
       )
     } else {
       return null;
     }
 
-  }
+  })
 
   return (
     <Box component="main">

@@ -1,27 +1,41 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useMutation, useQueryClient } from "react-query";
 import dayjs from 'dayjs';
 
-import { useTheme } from '@mui/material/styles';
-import { Typography, Card, Button, Divider, Grid, Stack, CardContent, CardActions } from '@mui/material';
+import useTheme from '@mui/material/styles/useTheme';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import { CollapseProps } from '@mui/material/Collapse';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 
 import ItemForm from './ItemForm'
 import { notify } from '../../assets/notifications';
 import { store } from '../../store/store';
 import { isAfterDeadline } from '../../assets/helpers';
-import { addItem, editItem, deleteItem } from '../../assets/apiFetcher';
-import { setAddingNewItemReducer, setFiltersCountReducer, removedItemReducer, addedItemReducer, editedItemReducer } from '../../store/todosSlice';
+import { addItem, deleteItem, editItem } from '../../assets/apiFetcher';
+import { setFiltersCountReducer, removedItemReducer, addedItemReducer, setAddingNewItemReducer, editedItemReducer } from '../../store/todosSlice';
 
-import type { RootState } from '../../store/store';
 import type { ItemType, TodoType } from '../../assets/types';
 
 /** Component props type */
-type Props = {
+type ItemProps = {
   data: ItemType;
   todo: TodoType;
   newItem?: boolean;
+}
+
+/** Customized Collapse component to render as Box */
+const CollapsibleBox: React.FC<CollapseProps> = (props) => {
+  return <Collapse component={Box} {...props}>{props.children}</Collapse>
 }
 
 /**
@@ -31,18 +45,27 @@ type Props = {
  * @param Props.todo todo data
  * @param Props.newItem if item is new currently added item
  */
-const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
+const Item: React.FC<ItemProps> = ({ data, todo, newItem = false }) => {
   const theme = useTheme();
   const dispatch = useDispatch()
   const queryClient = useQueryClient();
-  const allItems = useSelector<RootState, ItemType[]>((state) => state.todos.allItems);
 
   // check if would be displayed edit form or todo item 
   const [editing, setEditing] = useState(newItem);
 
+  // check if item was deleted to perform slide out animation
+  const [deleted, setDeleted] = useState(false);
+
+  /** Check if todo item is after deadline date */
+  const afterDeadline = isAfterDeadline(data);
+
+  /** Color that describe current todo item state (finished or after deadline) */
+  const markColor = data.finished ? theme.palette.success.light : (afterDeadline ? theme.palette.error.light : null);
+
 
   // Mutate item functions, displayed are notification messages until promises are resolved
-  // In case of error, invalidate query to refetch correct data from api, 
+  // In case of error, invalidate query to refetch correct data from api
+  // In case of success, displayed are data from current state
   const { mutateAsync: mutateAsyncAddItem } = useMutation(addItem, {
     onError: () => queryClient.invalidateQueries('todo')
   });
@@ -55,11 +78,22 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
     onError: () => queryClient.invalidateQueries('todo')
   });
 
-  /** Check if todo item is after deadline date */
-  const afterDeadline = isAfterDeadline(data);
 
-  /** Color that describe current todo item state (finished or after deadline) */
-  const markColor = data.finished ? theme.palette.success.light : (afterDeadline ? theme.palette.error.light : null);
+  /**
+   * Delete todo item
+   */
+  const handleDeleteItem = () => {
+    // update state see removed item immediately
+    dispatch(removedItemReducer(data.id));
+
+    //with updated allItems state continue to update other states...
+    const currentItems = store.getState().todos.allItems;
+    dispatch(setFiltersCountReducer());
+
+    //finally send data via api
+    const promise = mutateAsyncDeleteItem({ ...todo, items: currentItems });
+    notify('delete', data.title, promise);
+  }
 
 
   /**
@@ -71,64 +105,39 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
 
 
   /**
-   * Save todo item data for new item or edited existing item
-   * 
-   * @param itemData data of todo item that will be saved
-   */
+    * Save todo item data for new item or edited existing item
+    * 
+    * @param itemData data of todo item that will be saved
+    */
   const saveItem = (itemData: ItemType) => {
     if (newItem) {
       // update state to show new data immediately
-      dispatch(addedItemReducer({ allItems: allItems, itemData: itemData }));
+      dispatch(addedItemReducer(itemData));
       dispatch(setAddingNewItemReducer(false));
+      dispatch(setFiltersCountReducer());
 
-      //with updated allItems state continue to update other states...
-      const currentItems = store.getState().todos.allItems;
-      dispatch(setFiltersCountReducer(currentItems));
+      //finally send data via api, use already updated allItems list
+      const promise = mutateAsyncAddItem({ ...todo, items: store.getState().todos.allItems });
 
-      //finally send data via api
-      const promise = mutateAsyncAddItem({ ...todo, items: currentItems });
       notify('add', itemData.title, promise);
-
     } else {
       // update state to show new data immediately
-      dispatch(editedItemReducer({ allItems: allItems, itemData: itemData }));
+      dispatch(editedItemReducer(itemData));
+      dispatch(setFiltersCountReducer());
 
-      //with updated allItems state continue to update other states...
-      const currentItems = store.getState().todos.allItems;
-      dispatch(setFiltersCountReducer(currentItems));
+      //finally send data via api, use already updated allItems list
+      const promise = mutateAsyncEditItem({ ...todo, items: store.getState().todos.allItems });
 
-      //finally send data via api
-      const promise = mutateAsyncEditItem({ ...todo, items: currentItems });
       notify('edit', itemData.title, promise);
     }
-
   }
 
-
-  /**
-   * Delete todo item
-   */
-  const handleDeleteItem = () => {
-    // update state see removed item immediately
-    dispatch(removedItemReducer({ allItems: allItems, removeId: data.id }));
-
-    //with updated allItems state continue to update other states...
-    const currentItems = store.getState().todos.allItems;
-    dispatch(setFiltersCountReducer(currentItems));
-
-    //finally send data via api
-    const promise = mutateAsyncDeleteItem({ ...todo, items: currentItems });
-    notify('delete', data.title, promise);
-  }
-
-
-  /**
-   * Renders todo item 
-   */
-  const Item: React.FC = () => {
-    return (
-      <Grid item xs={12}>
-        <Card key={`id-${data.id}`} className="item-wrapper" sx={{ borderLeft: markColor !== null ? `5px solid ${markColor}` : "" }}>
+  // Decide if render edit form or todo item data
+  return (
+    editing
+      ? <ItemForm data={data} saveItem={saveItem} setEditing={setEditing} newItem={newItem} />
+      : <CollapsibleBox onExited={handleDeleteItem} in={!deleted} sx={{ width: "100%" }}>
+        <Card sx={{ mb: theme.spacing(2), borderLeft: markColor !== null ? `5px solid ${markColor}` : "" }}>
           <CardContent>
             <Grid container spacing={0}>
               <Grid item xs={12} md={8}>
@@ -160,18 +169,12 @@ const Item: React.FC<Props> = ({ data, todo, newItem = false }) => {
                 </Stack>
               </Grid>
               <Grid item xs={4} md={4} sx={{ textAlign: "right" }}>
-                <Button size="small" color="error" onClick={handleDeleteItem}>Delete</Button>
+                <Button size="small" color="error" onClick={() => setDeleted(true)}>Delete</Button>
               </Grid>
             </Grid>
           </CardActions>
         </Card>
-      </Grid>
-    )
-  };
-
-  // decide if render edit form or todo item data
-  return (
-    editing ? <ItemForm data={data} saveItem={saveItem} setEditing={setEditing} newItem={newItem} /> : <Item />
+      </CollapsibleBox>
   );
 
 }

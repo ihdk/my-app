@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { useTheme } from '@mui/material/styles';
-import { Typography, Box } from '@mui/material';
+import useTheme from '@mui/material/styles/useTheme';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
-import type { RootState } from '../store/store';
+import type { RootState } from '../../store/store';
 
 /**
  * Renders search title in dashboard with information about found results
@@ -22,6 +23,7 @@ const DashboardSearchTitle: React.FC<{ todos: number, items: number }> = (props)
   if (items > 0) {
     subtitle += ` including ${items} ` + (items === 1 ? "item" : "items");
   }
+  
   return (
     <Box sx={{ m: theme.spacing(4, 0) }}>
       <Typography color="primary" variant="h2" >Search results for: {searchTerm}</Typography>

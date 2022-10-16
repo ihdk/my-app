@@ -9,12 +9,14 @@ export const todosSlice = createSlice({
     allTodos: new Array<TodoType>(),
     /** All todo items */
     allItems: new Array<ItemType>(),
-    /** Count of todo items in each filter state  */
+    /** Counts number of todo items for each state ['all', 'active', 'finished', 'missed'] */
     filterCounts: { all: 0, active: 0, finished: 0, missed: 0 },
     /** Flag if is adding new todo item */
     addingNewItem: false,
     /** Search keyword typed by user */
     searchTerm: "",
+    /** Filter which todo items are currently displayed */
+    filter: "all",
   },
   reducers: {
     /** Store all todos lists */
@@ -45,27 +47,27 @@ export const todosSlice = createSlice({
       });
     },
     /** Remove todo item from all todo items state */
-    removedItemReducer: (state, action: PayloadAction<{ allItems: ItemType[], removeId: number | undefined }>) => {
-      const { allItems, removeId } = action.payload;
-      state.allItems = allItems.filter((item) => {
+    removedItemReducer: (state, action: PayloadAction<string>) => {
+      const removeId = action.payload;
+      state.allItems = state.allItems.filter((item) => {
         return item.id !== removeId
       });
     },
     /** Add new todo item into all todo items state */
-    addedItemReducer: (state, action: PayloadAction<{ allItems: ItemType[], itemData: ItemType }>) => {
-      const { allItems, itemData } = action.payload;
-      state.allItems = [itemData, ...allItems];
+    addedItemReducer: (state, action: PayloadAction<ItemType>) => {
+      const itemData = action.payload;
+      state.allItems = [itemData, ...state.allItems];
     },
     /** Update todo item in all todo items state */
-    editedItemReducer: (state, action: PayloadAction<{ allItems: ItemType[], itemData: ItemType }>) => {
-      const { allItems, itemData } = action.payload;
-      state.allItems = allItems.map((item) => {
+    editedItemReducer: (state, action: PayloadAction<ItemType>) => {
+      const itemData = action.payload;
+      state.allItems = state.allItems.map((item) => {
         return item.id === itemData.id ? itemData : item;
       });
     },
     /** Calculate count of todo items in each filter state */
-    setFiltersCountReducer: (state, action: PayloadAction<ItemType[]>) => {
-      const allItems = action.payload;
+    setFiltersCountReducer: (state) => {
+      const allItems = state.allItems;
       const filterCounts = { all: allItems.length, active: 0, finished: 0, missed: 0 };
       allItems.forEach((item) => {
         const itemDate = new Date(item.date);
@@ -90,6 +92,9 @@ export const todosSlice = createSlice({
     setSearchTermReducer: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
     },
+    setFilterReducer: (state, action: PayloadAction<string>) => {
+      state.filter = action.payload;
+    },
   }
 })
 
@@ -105,6 +110,7 @@ export const {
   addedItemReducer,
   removedItemReducer,
   editedItemReducer,
+  setFilterReducer,
 } = todosSlice.actions
 
 export default todosSlice.reducer;

@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 /**
  * Displays appropriate notification message according to processed action

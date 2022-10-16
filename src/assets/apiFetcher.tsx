@@ -9,7 +9,7 @@ const apiUrlBase = "https://631f480022cefb1edc48005f.mockapi.io/amcef";
  * @returns react query
  */
 export const useGetTodos = () => {
-  const getTodos = (): Promise<TodoType[]> => axios.get(`${apiUrlBase}/test`).then(response => response.data);
+  const getTodos = (): Promise<TodoType[]> => axios.get(`${apiUrlBase}/test2`).then(response => response.data);
   return useQuery('todos', getTodos)
 }
 
@@ -18,8 +18,8 @@ export const useGetTodos = () => {
  * @param todoId ID of todo list to get
  * @returns react query
  */
-export const useGetTodo = (todoId: string): UseQueryResult<TodoType> => {
-  const getTodo = (todoId: string): Promise<TodoType> => axios.get(`${apiUrlBase}/test/${todoId}`).then(response => response.data);
+export const useGetTodo = (todoId: number): UseQueryResult<TodoType> => {
+  const getTodo = (todoId: number): Promise<TodoType> => axios.get(`${apiUrlBase}/test2/${todoId}`).then(response => response.data);
   return useQuery('todo', () => getTodo(todoId))
 }
 
@@ -28,7 +28,7 @@ export const useGetTodo = (todoId: string): UseQueryResult<TodoType> => {
  * @param data data of todo list with updated items data
  */
 export const addItem = async (data: TodoType): Promise<void> => {
-  await axios.put(`${apiUrlBase}/test/${data.id}`, data)
+  await axios.put(`${apiUrlBase}/test2/${data.id}`, data)
     .then((response) => {
       return response.data;
     }).catch((error) => {
@@ -41,7 +41,7 @@ export const addItem = async (data: TodoType): Promise<void> => {
  * @param data data of todo list with updated items data
  */
 export const editItem = async (data: TodoType): Promise<void> => {
-  await axios.put(`${apiUrlBase}/test/${data.id}`, data)
+  await axios.put(`${apiUrlBase}/test2/${data.id}`, data)
     .then((response) => {
       return response;
     }).catch((error) => {
@@ -54,7 +54,7 @@ export const editItem = async (data: TodoType): Promise<void> => {
  * @param data data of todo list with updated items data
  */
 export const deleteItem = async (data: TodoType): Promise<void> => {
-  await axios.put(`${apiUrlBase}/test/${data.id}`, data)
+  await axios.put(`${apiUrlBase}/test2/${data.id}`, data)
     .then((response) => {
       return response;
     }).catch((error) => {
@@ -67,7 +67,7 @@ export const deleteItem = async (data: TodoType): Promise<void> => {
  * @param data data of new todo list
  */
 export const addTodo = async (data: TodoType): Promise<TodoType> => {
-  const response = await axios.post(`${apiUrlBase}/test`, data)
+  const response = await axios.post(`${apiUrlBase}/test2`, data)
     .then((response) => {
       return response.data;
     }).catch((error) => {
@@ -81,7 +81,7 @@ export const addTodo = async (data: TodoType): Promise<TodoType> => {
  * @param data data of todo list
  */
 export const editTodo = async (data: TodoType): Promise<void> => {
-  await axios.put(`${apiUrlBase}/test/${data.id}`, data)
+  await axios.put(`${apiUrlBase}/test2/${data.id}`, data)
     .then((response) => {
       return response;
     }).catch((error) => {
@@ -94,7 +94,7 @@ export const editTodo = async (data: TodoType): Promise<void> => {
  * @param data data of todo list
  */
 export const deleteTodo = async (data: TodoType): Promise<void> => {
-  await axios.delete(`${apiUrlBase}/test/${data.id}`)
+  await axios.delete(`${apiUrlBase}/test2/${data.id}`)
     .then((response) => {
       return response;
     }).catch((error) => {
@@ -116,7 +116,7 @@ export const importDemo = async (data: TodoType[], allTodos: TodoType[]): Promis
   for (let i = 0; i < allTodos.length; i++) {
     const todo = allTodos[i];
     requests.push(
-      await axios.delete(`${apiUrlBase}/test/${todo.id}`)
+      await axios.delete(`${apiUrlBase}/test2/${todo.id}`)
         .then((response) => {
           return response;
         }).catch((error) => {
@@ -135,7 +135,7 @@ export const importDemo = async (data: TodoType[], allTodos: TodoType[]): Promis
   for (let i = 0; i < data.length; i++) {
     const todo = data[i];
     requests.push(
-      await axios.post(`${apiUrlBase}/test`, todo)
+      await axios.post(`${apiUrlBase}/test2`, todo)
         .then((response) => {
           return response.data;
         }).catch((error) => {

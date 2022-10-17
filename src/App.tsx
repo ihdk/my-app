@@ -16,6 +16,7 @@ import Dashboard from './Dashboard';
 import TodoPage from './TodoPage';
 import Header from './components/Header';
 import { store } from './store/store';
+import NothingToShow from './components/NoResults';
 
 
 // allow custom colors in MUI palette
@@ -92,6 +93,10 @@ const App: React.FC = () => {
     {
       path: "todo/:id",
       element: <><Header /><TodoPage /></>
+    },
+    {
+      path: "*",
+      element: <><Header /><NothingToShow text={"404 nothing found"} /></>
     },
   ]);
 

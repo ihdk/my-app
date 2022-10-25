@@ -42,7 +42,7 @@ const Dashboard: React.FC = () => {
   /**
     * Main section with listed todo lists
     */
-  const Screen: React.FC = React.forwardRef((props, ref) => {
+  const Screen: React.FC = () => {
 
     if (isLoading) {
       return <Loader />
@@ -87,7 +87,7 @@ const Dashboard: React.FC = () => {
       return null;
     }
 
-  })
+  }
 
   return (
     <Box component="main">

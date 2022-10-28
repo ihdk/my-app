@@ -21,8 +21,8 @@ export const useGetTodos = () => {
  * @returns react query
  */
 export const useGetTodo = (todoId: number): UseQueryResult<TodoType> => {
-  const getTodo = (todoId: number): Promise<TodoType> => axios.get(`${apiUrlBase}/test/${todoId}`).then(response => response.data);
-  return useQuery('todo', () => getTodo(todoId))
+  const getTodo = (): Promise<TodoType> => axios.get(`${apiUrlBase}/test/${todoId}`).then(response => response.data);
+  return useQuery('todo', getTodo)
 }
 
 

@@ -57,13 +57,15 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
       },
       error: {
         render({ data }) {
-          return (
-            <>
-              <Typography variant="body1" fontWeight={600} display="block">{text.error}</Typography>
-              <Typography variant="body2" display="block">"{itemName}"</Typography>
-              <Typography variant="caption" display="block">{data.message}</Typography>
-            </>
-          )
+          if (data) {
+            return (
+              <>
+                <Typography variant="body1" fontWeight={600} display="block">{text.error}</Typography>
+                <Typography variant="body2" display="block">"{itemName}"</Typography>
+                <Typography variant="caption" display="block">{data.message}</Typography>
+              </>
+            )
+          }
         },
       }
     }

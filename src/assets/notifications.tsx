@@ -61,7 +61,7 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
             <>
               <Typography variant="body1" fontWeight={600} display="block">{text.error}</Typography>
               <Typography variant="body2" display="block">"{itemName}"</Typography>
-              {data !== null && typeof data === "object" && <Typography variant="caption" display="block">{data.message}</Typography>}
+              {(data !== null && typeof data === "object" && data.hasOwnProperty('message')) && < Typography variant="caption" display="block">{data.message}</Typography>}
             </>
           )
         },

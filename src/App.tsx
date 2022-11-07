@@ -101,19 +101,21 @@ const App: React.FC = () => {
   ]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <CssBaseline />
-          <Box sx={{ minHeight: "100vh", backgroundColor: theme.palette.grey[100] }}>
-            <Container maxWidth="lg" sx={{ pt: theme.spacing(12), pb: theme.spacing(9) }}>
-              <RouterProvider router={router} />
-            </Container>
-          </Box>
-          <ToastContainer autoClose={2000} theme="colored" />
-        </QueryClientProvider>
-      </Provider>
-    </ThemeProvider>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <CssBaseline />
+            <Box sx={{ minHeight: "100vh", backgroundColor: theme.palette.grey[100] }}>
+              <Container maxWidth="lg" sx={{ pt: theme.spacing(12), pb: theme.spacing(9) }}>
+                <RouterProvider router={router} />
+              </Container>
+            </Box>
+            <ToastContainer autoClose={2000} theme="colored" />
+          </QueryClientProvider>
+        </Provider>
+      </ThemeProvider>
+    </React.StrictMode>
   );
 }
 

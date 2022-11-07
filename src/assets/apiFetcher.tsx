@@ -4,6 +4,7 @@ import { TodoType } from './types';
 import { store } from '../store/store';
 
 const apiUrlBase = "https://631f480022cefb1edc48005f.mockapi.io/demo-api";
+const demoApiUrl = "https://my.api.mockaroo.com/todos.json?key=cb9ff710";
 
 /**
  * Get all todos for dashboard page
@@ -82,10 +83,18 @@ export const updateTodoItems = async (todo: TodoType): Promise<void> => {
 /**
  * Insert new demo todos
  * 
- * @param data new demo todos list
  * @param allTodos existing todos list
  */
-export const importDemo = async (data: TodoType[], allTodos: TodoType[]): Promise<TodoType[]> => {
+export const importDemo = async (allTodos: TodoType[]): Promise<TodoType[]> => {
+  const count = Math.floor(Math.random() * 10) + 1;
+  const data = await axios.get(`${demoApiUrl}&count=${count}`)
+    .then((response) => {
+      return response.data;
+    }).catch((error) => {
+      console.log('error')
+      throw new Error(error);
+    });
+
   /** store axios requests to resolve them all at once */
   let requests = [];
 
@@ -103,7 +112,7 @@ export const importDemo = async (data: TodoType[], allTodos: TodoType[]): Promis
   }
 
   // no need to get response data, just check if error occurs to show appropriate notification
-  await axios.all(requests).catch(error => {
+  await axios.all(requests).catch((error) => {
     throw new Error(error);
   })
 
@@ -124,7 +133,7 @@ export const importDemo = async (data: TodoType[], allTodos: TodoType[]): Promis
   // return response to resolve notification promise and show appropriate success message
   return await axios.all(requests).then((response) => {
     return response;
-  }).catch(error => {
+  }).catch((error) => {
     throw new Error(error);
   })
 }

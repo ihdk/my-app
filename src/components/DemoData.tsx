@@ -33,12 +33,13 @@ const DemoData: React.FC = () => {
   const handleDemoImport = () => {
     setOpened(false);
     setDisabledButton(true);
-    const promise = importDemo(data, store.getState().todos.allTodos)
-      .then((demoData) => {
-        dispatch(setAllTodosReducer(demoData))
+    const promise = importDemo(store.getState().todos.allTodos)
+      .then((response) => {
+        dispatch(setAllTodosReducer(response))
         setDisabledButton(false);
-      }).catch(() => {
+      }).catch((error) => {
         setDisabledButton(false);
+        throw new Error(error);
       });
     demoNotify(promise);
   }

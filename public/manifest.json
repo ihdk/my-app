@@ -1,5 +1,5 @@
 {
-  "short_name": "AMCEF Demo",
+  "short_name": "My App Demo",
   "name": "Todo List App",
   "start_url": ".",
   "display": "standalone",

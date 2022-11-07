@@ -3,7 +3,7 @@ import axios from 'axios';
 import { TodoType } from './types';
 import { store } from '../store/store';
 
-const apiUrlBase = "https://631f480022cefb1edc48005f.mockapi.io/amcef";
+const apiUrlBase = "https://631f480022cefb1edc48005f.mockapi.io/demo-api";
 
 /**
  * Get all todos for dashboard page

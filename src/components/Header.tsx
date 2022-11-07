@@ -36,8 +36,8 @@ const Header: React.FC = () => {
                     spacing={{ xs: 0, md: 1 }}
                     sx={{ alignItems: "flex-end", [theme.breakpoints.down('md')]: { alignItems: "flex-start" } }}
                   >
-                    <Typography component="div" variant="h2" color="#ffffff">AMCEF demo</Typography>
-                    <Typography component="div" color="#ffffff" sx={{ opacity: 0.5 }}>/ my TODO list</Typography>
+                    <Typography component="div" variant="h2" color="#ffffff">My App Demo</Typography>
+                    <Typography component="div" color="#ffffff" sx={{ opacity: 0.5 }}>/ todo list</Typography>
                   </Stack>
                 </Stack>
               </Link>

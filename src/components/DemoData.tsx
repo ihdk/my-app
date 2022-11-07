@@ -10,7 +10,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 
-import data from '../assets/demo-data.json';
 import { importDemo } from '../assets/apiFetcher';
 import { demoNotify } from '../assets/notifications';
 import { setAllTodosReducer } from '../store/todosSlice';

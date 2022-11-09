@@ -42,7 +42,7 @@ const TodoPage: React.FC = () => {
   /** Check if new todo item form should be displayed */
   const addingNewItem = useSelector<RootState, boolean>((state) => state.todos.addingNewItem);
 
-  const { data: todo, error, isError, isLoading, isSuccess } = useGetTodo(todoId);
+  const { data: todo, error, isError, isLoading, isSuccess, isRefetching } = useGetTodo(todoId);
 
   // Set current filter to global state on page load
   useEffect(() => {
@@ -57,6 +57,12 @@ const TodoPage: React.FC = () => {
     }
   }, [todo, dispatch, isSuccess]); // satisfy Eslint warning missing deps? included also dispatch and isSuccess
 
+  // Update list with current data after query invalidation
+  useEffect(() => {
+    if (isSuccess && isRefetching) {
+      dispatch(setAllItemsReducer(todo.items));
+    }
+  });
 
   /**
    * Main section with listed todo items
@@ -75,7 +81,7 @@ const TodoPage: React.FC = () => {
 
       if (filteredItems.length === 0) {
         return addingNewItem === false
-          ? <NothingToShow />
+          ? <NothingToShow options={{items: filteredItems.length, filter: filter}} />
           : <Item data={getNewItemData()} todo={todo} newItem />
       }
 

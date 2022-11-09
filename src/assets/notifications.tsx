@@ -57,7 +57,6 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
       },
       error: {
         render(props) {
-          console.log(props)
           return (
             <>
               <Typography variant="body1" fontWeight={600} display="block">{text.error}</Typography>

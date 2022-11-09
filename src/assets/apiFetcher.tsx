@@ -82,58 +82,16 @@ export const updateTodoItems = async (todo: TodoType): Promise<void> => {
 
 /**
  * Insert new demo todos
- * 
- * @param allTodos existing todos list
  */
-export const importDemo = async (allTodos: TodoType[]): Promise<TodoType[]> => {
-  const count = Math.floor(Math.random() * 10) + 1;
-  const data = await axios.get(`${demoApiUrl}&count=${count}`)
+export const importDemo = async (): Promise<TodoType> => {
+
+  const data: TodoType = await axios.get(demoApiUrl)
     .then((response) => {
       return response.data;
     }).catch((error) => {
-      console.log('error')
       throw new Error(error);
     });
 
-  /** store axios requests to resolve them all at once */
-  let requests = [];
+  return addTodo(data);
 
-  // remove all existing todos
-  for (let i = 0; i < allTodos.length; i++) {
-    const todo = allTodos[i];
-    requests.push(
-      await axios.delete(`${apiUrlBase}/test/${todo.id}`)
-        .then((response) => {
-          return response;
-        }).catch((error) => {
-          throw new Error(error);
-        })
-    );
-  }
-
-  // no need to get response data, just check if error occurs to show appropriate notification
-  await axios.all(requests).catch((error) => {
-    throw new Error(error);
-  })
-
-  // add new demo todos
-  requests = [];
-  for (let i = 0; i < data.length; i++) {
-    const todo = data[i];
-    requests.push(
-      await axios.post(`${apiUrlBase}/test`, todo)
-        .then((response) => {
-          return response.data;
-        }).catch((error) => {
-          throw new Error(error);
-        })
-    );
-  }
-
-  // return response to resolve notification promise and show appropriate success message
-  return await axios.all(requests).then((response) => {
-    return response;
-  }).catch((error) => {
-    throw new Error(error);
-  })
 }

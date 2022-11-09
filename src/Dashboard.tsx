@@ -29,15 +29,21 @@ const Dashboard: React.FC = () => {
   const searchTerm = useSelector<RootState, string>((state) => state.todos.searchTerm);
 
   // Fetch todos from api
-  const { data: todos, error, isError, isLoading, isSuccess } = useGetTodos();
+  const { data: todos, error, isError, isLoading, isSuccess, isRefetching } = useGetTodos();
 
   // Set loaded todos to global state
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setAllTodosReducer(todos))
+      dispatch(setAllTodosReducer(todos));
     }
   }, [todos, dispatch, isSuccess]); // satisfy Eslint warning missing deps? included also dispatch and isSuccess
 
+  // Update todos list with current data after query invalidation
+  useEffect(() => {
+    if (isSuccess && isRefetching) {
+      dispatch(setAllTodosReducer(todos));
+    }
+  });
 
   /**
     * Main section with listed todo lists

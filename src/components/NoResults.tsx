@@ -33,7 +33,7 @@ const NothingToShow: React.FC<{ text?: string, options?: { items: number, filter
           break;
       }
     }
-  });
+  }, [options]);
 
 
   return (

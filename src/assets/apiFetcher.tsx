@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 import { TodoType } from './types';
 import { store } from '../store/store';
@@ -21,7 +21,7 @@ export const useGetTodos = () => {
  * @param todoId ID of todo list to get
  * @returns react query
  */
-export const useGetTodo = (todoId: number): UseQueryResult<TodoType> => {
+export const useGetTodo = (todoId: number) => {
   const getTodo = (): Promise<TodoType> => axios.get(`${apiUrlBase}/test/${todoId}`).then(response => response.data);
   return useQuery('todo', getTodo)
 }
@@ -32,7 +32,7 @@ export const useGetTodo = (todoId: number): UseQueryResult<TodoType> => {
  * @param data data of new todo list
  * @return data of new todo list including ID parameter defined by db
  */
-export const addTodo = async (data: TodoType): Promise<TodoType> => {
+export const addTodo = async (data: TodoType) => {
   const response = await axios.post(`${apiUrlBase}/test`, data)
     .then((response) => {
       return response.data;
@@ -47,7 +47,7 @@ export const addTodo = async (data: TodoType): Promise<TodoType> => {
  * Edit todo list
  * @param data data of todo list
  */
-export const editTodo = async (data: TodoType): Promise<void> => {
+export const editTodo = async (data: TodoType) => {
   await axios.put(`${apiUrlBase}/test/${data.id}`, data)
     .catch((error) => {
       throw new Error(error);
@@ -59,7 +59,7 @@ export const editTodo = async (data: TodoType): Promise<void> => {
  * Remove todo list
  * @param data data of todo list
  */
-export const deleteTodo = async (data: TodoType): Promise<void> => {
+export const deleteTodo = async (data: TodoType) => {
   await axios.delete(`${apiUrlBase}/test/${data.id}`)
     .catch((error) => {
       throw new Error(error);
@@ -70,7 +70,7 @@ export const deleteTodo = async (data: TodoType): Promise<void> => {
  * Update items in todo list
  * @param todo data of todo list
  */
-export const updateTodoItems = async (todo: TodoType): Promise<void> => {
+export const updateTodoItems = async (todo: TodoType) => {
   // update todo with current todo items data, we'll use data stored in global state
   const newData = { ...todo, items: store.getState().todos.allItems };
   await axios.put(`${apiUrlBase}/test/${todo.id}`, newData)
@@ -83,7 +83,7 @@ export const updateTodoItems = async (todo: TodoType): Promise<void> => {
 /**
  * Insert new demo todos
  */
-export const importDemo = async (): Promise<TodoType> => {
+export const importDemo = async () => {
 
   const data: TodoType = await axios.get(demoApiUrl)
     .then((response) => {

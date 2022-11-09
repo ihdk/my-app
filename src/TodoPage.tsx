@@ -24,8 +24,8 @@ import type { ItemType } from './assets/types';
  */
 const useFilterParamFromUrl = () => {
   const { search } = useLocation();
-  const memo = useMemo(() => new URLSearchParams(search), [search]);
-  return memo.get('state');
+  const params = useMemo(() => new URLSearchParams(search), [search]);
+  return params.get('state');
 }
 
 /**
@@ -81,7 +81,7 @@ const TodoPage: React.FC = () => {
 
       if (filteredItems.length === 0) {
         return addingNewItem === false
-          ? <NothingToShow options={{items: filteredItems.length, filter: filter}} />
+          ? <NothingToShow options={{ items: filteredItems.length, filter: filter }} />
           : <Item data={getNewItemData()} todo={todo} newItem />
       }
 

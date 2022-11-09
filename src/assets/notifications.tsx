@@ -56,12 +56,12 @@ export const notify = (type: string, itemName: string, promise: Promise<void>) =
         }
       },
       error: {
-        render(props) {
+        render({ data }) {
           return (
             <>
               <Typography variant="body1" fontWeight={600} display="block">{text.error}</Typography>
               <Typography variant="body2" display="block">"{itemName}"</Typography>
-              <Typography variant="caption" display="block">{props.data.message}</Typography>
+              {data instanceof Error && <Typography variant="caption" display="block">{data.message}</Typography>}
             </>
           )
         },
@@ -95,7 +95,7 @@ export const demoNotify = (promise: Promise<void>) => {
           return (
             <>
               <Typography variant="body1" fontWeight={600} display="block">Something went wrong</Typography>
-              <Typography variant="caption" display="block">{data.message}</Typography>
+              {data instanceof Error && <Typography variant="caption" display="block">{data.message}</Typography>}
             </>
           )
         },

@@ -2,7 +2,7 @@ import { defineConfig } from 'cypress'
 
 export default defineConfig({
   e2e: {
-    baseUrl: "http://localhost:3000/",//"https://ivan-demo.netlify.app/",
+    baseUrl: "https://ivan-demo.netlify.app/",
     env: {
       appNameText: "My App Demo",
     },

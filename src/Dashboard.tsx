@@ -98,7 +98,7 @@ const Dashboard: React.FC = () => {
   return (
     <Box component="main">
       <Toolbar />
-      <Box sx={{ mt: theme.spacing(6) }}>
+      <Box className="todos-list" sx={{ mt: theme.spacing(6) }}>
         <Screen />
       </Box>
       <DemoData />

@@ -26,7 +26,7 @@ const SearchTitle: React.FC<{ todos: number, items: number }> = (props) => {
   
   return (
     <Box sx={{ m: theme.spacing(4, 0) }}>
-      <Typography color="primary" variant="h2" >Search results for: {searchTerm}</Typography>
+      <Typography className="search-title" color="primary" variant="h2" >Search results for: {searchTerm}</Typography>
       {(todos !== 0 || items !== 0) && <Typography color="primary">{subtitle}</Typography>}
     </Box>
   );

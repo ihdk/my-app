@@ -13,7 +13,7 @@ import AddNewTodo from './AddNewTodo';
  */
 const Toolbar: React.FC = () => {
   return (
-    <Box>
+    <Box className="dashboard-toolbar">
       <Stack
         direction={{ xs: "column", sm: "row" }}
         spacing={{ xs: 2, sm: 4 }}

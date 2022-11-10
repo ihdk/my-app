@@ -36,7 +36,7 @@ const DemoData: React.FC = () => {
   }
 
   return (
-    <Button variant="contained" onClick={handleDemoImport} disabled={disabledButton} sx={{ position: "fixed", bottom: "0", right: "0", m: theme.spacing(2) }} >Insert Demo Todo</Button>
+    <Button className="demo-data-btn" variant="contained" onClick={handleDemoImport} disabled={disabledButton} sx={{ position: "fixed", bottom: "0", right: "0", m: theme.spacing(2) }} >Insert Demo Todo</Button>
   );
 
 }

@@ -70,22 +70,22 @@ const AddNewTodo: React.FC = () => {
   
   return (
     <>
-      <Button variant="contained" onClick={() => setOpened(true)} >Add new list</Button>
-      <Dialog maxWidth="sm" open={opened} onClose={() => setOpened(false)} fullWidth>
+      <Button className="add-new-btn" variant="contained" onClick={() => setOpened(true)} >Add new list</Button>
+      <Dialog className="add-new-dialog" maxWidth="sm" open={opened} onClose={() => setOpened(false)} fullWidth>
         <DialogContent>
-          <Typography color="primary" component="div" variant="h6" sx={{ mb: theme.spacing(2) }} >Name your new list</Typography>
+          <Typography className="title" color="primary" component="div" variant="h6" sx={{ mb: theme.spacing(2) }} >Name your new list</Typography>
           <TextField
             variant="outlined"
             size="small"
             inputRef={newTodoInputRef}
             sx={{ width: "100%" }}
             autoFocus
-            inputProps={{ autoComplete: "off" }}
+            inputProps={{ autoComplete: "off", className: "list-name-input" }}
           />
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleInsert} >Insert</Button>
-          <Button onClick={() => setOpened(false)} sx={{ color: theme.palette.grey[500] }}>Cancel</Button>
+          <Button className="submit" variant="outlined" onClick={handleInsert} >Insert</Button>
+          <Button className="cancel" onClick={() => setOpened(false)} sx={{ color: theme.palette.grey[500] }}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </>

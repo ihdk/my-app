@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from "react-query";
+import classNames from 'classnames';
 
 import useTheme from '@mui/material/styles/useTheme';
 import Link from '@mui/material/Link';
@@ -23,7 +24,6 @@ import { editedTodoReducer, removedTodoReducer } from '../../store/todosSlice'
 
 import type { RootState } from '../../store/store';
 import type { TodoType } from '../../assets/types';
-
 
 /**
  * Renders todo list in dashboard
@@ -71,7 +71,7 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
     }
   });
 
-  
+
   /**
    * Handle actions to delete todo list
    */
@@ -123,15 +123,18 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
           hiddenLabel
         />
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" onClick={handleRenameTodo} >Save</Button>
-          <Button onClick={() => setEditing(false)} sx={{ color: theme.palette.grey[500] }}>Cancel</Button>
+          <Button className="submit" variant="outlined" onClick={handleRenameTodo} >Save</Button>
+          <Button className="cancel" onClick={() => setEditing(false)} sx={{ color: theme.palette.grey[500] }}>Cancel</Button>
         </Stack>
       </Box>
     )
   }
 
   return (
-    <Grid item xs={12} md={6}>
+    <Grid className={classNames(
+      "todo-item",
+       editing ? 'editing' : null
+    )} item xs={12} md={6} >
       <Paper elevation={3} sx={{ height: "100%", p: theme.spacing(1, 2) }}>
         <Stack
           direction="column"
@@ -141,7 +144,7 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
           {editing
             ? <EditForm />
             : <>
-              <Box>
+              <Box className="title-part">
                 <Link
                   underline="none"
                   color="inherit"
@@ -154,7 +157,7 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
                 </Link>
                 <Divider sx={{ mt: theme.spacing(1) }} />
               </Box>
-              <Box>
+              <Box className="content-part">
                 {itemsCount > 0
                   ?
                   <Grid container spacing={1} >
@@ -191,7 +194,7 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
                 }
               </Box>
 
-              <Box>
+              <Box className="toolbar-part">
                 <Divider sx={{ mb: theme.spacing(1) }} />
                 <Grid container spacing={0}>
                   <Grid item xs={6}>
@@ -204,7 +207,7 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
                       spacing={2}
                       sx={{ alignItems: "center", justifyContent: "flex-end" }}
                     >
-                      <Button onClick={() => setEditing(true)} >Rename</Button>
+                      <Button className="rename-btn" onClick={() => setEditing(true)} >Rename</Button>
                       <Button color="error" onClick={handleDeleteTodo} >Delete</Button>
                     </Stack>
                   </Grid>
@@ -214,7 +217,7 @@ const Todo: React.FC<{ data: TodoType }> = ({ data }) => {
           }
         </Stack>
       </Paper>
-    </Grid>
+    </Grid >
   );
 
 }

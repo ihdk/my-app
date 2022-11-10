@@ -46,9 +46,10 @@ const SearchBar: React.FC = () => {
   }
 
   return (
-    <Box>
+    <Box className="search-bar">
       <Stack direction="row" spacing={1} sx={{ width: "100%" }}>
         <TextField
+          
           label="Search in the list"
           variant="outlined"
           size="small"
@@ -57,7 +58,7 @@ const SearchBar: React.FC = () => {
           inputRef={searchInputRef}
           focused
           sx={{ width: "100%" }}
-          inputProps={{ autoComplete: "off" }}
+          inputProps={{ autoComplete: "off", className: "search-input" }}
         />
         <Button onClick={handleCancel} >Cancel</Button>
       </Stack>

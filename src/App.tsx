@@ -105,7 +105,7 @@ const App: React.FC = () => {
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <CssBaseline />
-          <Box sx={{ minHeight: "100vh", backgroundColor: theme.palette.grey[100] }}>
+          <Box sx={{ minHeight: "100vh", backgroundColor: theme.palette.grey[50] }}>
             <Container maxWidth="lg" sx={{ pt: theme.spacing(12), pb: theme.spacing(9) }}>
               <RouterProvider router={router} />
             </Container>
